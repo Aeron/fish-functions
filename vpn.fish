@@ -1,6 +1,11 @@
 function vpn -a cmd name_or_index -d 'Handles existing OS X VPN services'
 	set -l service_name
-	set -l available_commands 'list' 'start' 'stop'  # 'status'
+	set -l LIST 'list'
+	set -l START 'start'
+	set -l STOP 'stop'
+	set -l SWITCH 'switch'
+	# set -l STATUS 'status'
+	set -l available_commands $LIST $START $STOP $SWITCH  # $STATUS
 	set -l types_regex '(PPTP|L2TP)'
 	set -l quoted_regex '\".*\"'
 	set -l brackets_regex '(\(.*\)) '
@@ -54,7 +59,7 @@ function vpn -a cmd name_or_index -d 'Handles existing OS X VPN services'
 	end
 
 	# # `list` command is informative enough to have separate `status` command
-	# if [ $cmd = $available_commands[4] ]
+	# if [ $cmd = $available_commands[5] ]
 	# 	echo "$service_name is" (scutil --nc status "$service_name" | head -n 1 | tr "[:upper:]" "[:lower:]")
 	# 	return 0
 	# end
@@ -64,12 +69,22 @@ function vpn -a cmd name_or_index -d 'Handles existing OS X VPN services'
 
 		set_color green
 
-		if [ $service_status = $service_status_true -a $cmd = $available_commands[2] ]
-			echo "$service_name: $service_status_true"
-			break
-		else if [ $service_status = $service_status_false -a $cmd = $available_commands[3] ]
-			echo "$service_name: $service_status_false"
-			break
+		if [ $service_status = $service_status_true ]
+			if [ $cmd = $available_commands[2] ]
+				echo "$service_name: $service_status_true"
+				break
+			end
+			if [ $cmd = $available_commands[4] ]
+				set cmd $available_commands[3]
+			end
+		else if [ $service_status = $service_status_false ]
+			if [ $cmd = $available_commands[3] ]
+				echo "$service_name: $service_status_false"
+				break
+			end
+			if [ $cmd = $available_commands[4] ]
+				set cmd $available_commands[2]
+			end
 		end
 
 		set_color normal
