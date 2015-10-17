@@ -20,9 +20,14 @@ Usage: `fake_smtp [<port>]`
 ### ❯ vpn
 Faster way to handle existing OS X VPN connections.
 
-Usage: `vpn [list | start <connection> | stop <connection>]`
+Usage: `vpn [list | start <connection> | stop <connection> | switch <connection>]`
 
 ### ❯ ip_up_add
 Faster way to add subnetwork in `/etc/ppp/ip-up`.
 
 Usage: `ip_up_add <subnetwork> [<comment>]`
+
+### ❯ world_time
+Displays current time in given timezones, e.g. `US/Pacific`, `UTC`, `Asia/Bangkok` and etc. See `/usr/share/zoneinfo` for more.
+
+Usage: `world_time <timezones>`
