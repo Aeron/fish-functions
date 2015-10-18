@@ -14,7 +14,7 @@ function vpn -a cmd name_or_index -d 'Handles existing OS X VPN services'
 	set -l service_status_false 'Disconnected'
 
 	if [ -z "$cmd" ]
-		set cmd $available_commands[1]
+		set cmd $LIST
 	else if not contains $cmd $available_commands
 		set_color red
 		echo "$_: invalid command, use $available_commands instead"
@@ -26,13 +26,13 @@ function vpn -a cmd name_or_index -d 'Handles existing OS X VPN services'
 	set -l names (scutil --nc list | grep -E $types_regex | grep -o -E $quoted_regex | sed -e "s/\"//g")
 	set -l statuses (scutil --nc list | grep -E $types_regex | grep -o -E $brackets_regex | sed -e "s/[\(\)]//g")
 
-	if [ -z "$name_or_index" -o $cmd = $available_commands[1] ]
+	if [ -z "$name_or_index" -o $cmd = $LIST ]
 		# show VPN list
 		for i in (seq (count $names))
 			echo -s $i '. ' $names[$i] ' - ' $statuses[$i]
 		end
 
-		if [ $cmd = $available_commands[1] ]
+		if [ $cmd = $LIST ]
 			return 0
 		end
 
@@ -59,7 +59,7 @@ function vpn -a cmd name_or_index -d 'Handles existing OS X VPN services'
 	end
 
 	# # `list` command is informative enough to have separate `status` command
-	# if [ $cmd = $available_commands[5] ]
+	# if [ $cmd = $STATUS ]
 	# 	echo "$service_name is" (scutil --nc status "$service_name" | head -n 1 | tr "[:upper:]" "[:lower:]")
 	# 	return 0
 	# end
@@ -70,20 +70,20 @@ function vpn -a cmd name_or_index -d 'Handles existing OS X VPN services'
 		set_color green
 
 		if [ $service_status = $service_status_true ]
-			if [ $cmd = $available_commands[2] ]
+			if [ $cmd = $START ]
 				echo "$service_name: $service_status_true"
 				break
 			end
-			if [ $cmd = $available_commands[4] ]
-				set cmd $available_commands[3]
+			if [ $cmd = $SWITCH ]
+				set cmd $STOP
 			end
 		else if [ $service_status = $service_status_false ]
-			if [ $cmd = $available_commands[3] ]
+			if [ $cmd = $STOP ]
 				echo "$service_name: $service_status_false"
 				break
 			end
-			if [ $cmd = $available_commands[4] ]
-				set cmd $available_commands[2]
+			if [ $cmd = $SWITCH ]
+				set cmd $START
 			end
 		end
 
