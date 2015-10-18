@@ -10,8 +10,8 @@ function vpn -a cmd name_or_index -d 'Handles existing OS X VPN services'
 	set -l quoted_regex '\".*\"'
 	set -l brackets_regex '(\(.*\)) '
 	set -l prompt 'set_color blue; echo -n "Specify index or service name: "; set_color normal;'
-	set -l service_status_true 'Connected'
-	set -l service_status_false 'Disconnected'
+	set -l CONNECTED 'Connected'
+	set -l DISCONNECTED 'Disconnected'
 
 	if [ -z "$cmd" ]
 		set cmd $LIST
@@ -69,17 +69,17 @@ function vpn -a cmd name_or_index -d 'Handles existing OS X VPN services'
 
 		set_color green
 
-		if [ $service_status = $service_status_true ]
+		if [ $service_status = $CONNECTED ]
 			if [ $cmd = $START ]
-				echo "$service_name: $service_status_true"
+				echo "$service_name: $CONNECTED"
 				break
 			end
 			if [ $cmd = $SWITCH ]
 				set cmd $STOP
 			end
-		else if [ $service_status = $service_status_false ]
+		else if [ $service_status = $DISCONNECTED ]
 			if [ $cmd = $STOP ]
-				echo "$service_name: $service_status_false"
+				echo "$service_name: $DISCONNECTED"
 				break
 			end
 			if [ $cmd = $SWITCH ]
