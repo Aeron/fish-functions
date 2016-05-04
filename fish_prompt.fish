@@ -19,10 +19,13 @@ function fish_prompt -d 'Write out the prompt'
 		end
 	end
 
-	set_color green
-	# it is possible to do that using `set` and env var to compile prompt string,
-	# but I think this is better way just to use combined echos
-	echo -n (basename (prompt_pwd))
+	set -l prompt_pwd (set_color green; basename (prompt_pwd))
+
+	if [ -n "$VIRTUAL_ENV" -a -n "$VIRTUAL_ENV_DISABLE_PROMPT" ]
+		set prompt_pwd (set_color purple; echo -n '('; echo -n "$prompt_pwd"; set_color purple; echo -n ')';)
+	end
+
+	echo -n "$prompt_pwd"
 
 	if [ (_git_branch_name) ]
 		set_color yellow
@@ -41,13 +44,15 @@ function fish_prompt -d 'Write out the prompt'
 end
 
 function fish_right_prompt -a return_status -d 'Write out the right prompt'
-	if [ -z $return_status ]
-		set_color blue
-		prompt_pwd
-		set_color normal
-	else
+	set -l last_status $status
+
+	set_color blue
+	prompt_pwd
+	set_color normal
+
+	if [ $last_status -ne 0 ]
 		set_color red
-		echo $return_status
+		printf ' %d' $last_status
 		set_color normal
 	end
 end
