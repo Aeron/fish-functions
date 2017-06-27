@@ -6,12 +6,12 @@ function vpn -a cmd name_or_index -d 'Handles existing OS X VPN services'
 	set -l SWITCH 'switch'
 	# set -l STATUS 'status'
 	set -l available_commands $LIST $START $STOP $SWITCH  # $STATUS
-	set -l types_regex '(PPTP|L2TP)'
+	set -l types_regex 'PPTP|L2TP'
 	set -l quoted_regex '\".*\"'
-	set -l brackets_regex '(\(.*\)) '
-	set -l prompt 'set_color blue; echo -n "Specify index or service name: "; set_color normal;'
 	set -l CONNECTED 'Connected'
 	set -l DISCONNECTED 'Disconnected'
+	set -l brackets_regex "\($CONNECTED|$DISCONNECTED\)"
+	set -l prompt 'set_color blue; echo -n "Specify index or service name: "; set_color normal;'
 
 	if [ -z "$cmd" ]
 		set cmd $LIST
