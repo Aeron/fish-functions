@@ -1,4 +1,4 @@
-function pip -d 'Handy wrapper for OS X pip'
+function pip -d 'Handy wrapper for macOS/homebrew pip'
 	set -l pip_version (command pip --version)
 	set -l cmd
 
@@ -8,7 +8,7 @@ function pip -d 'Handy wrapper for OS X pip'
 			echo "Using built-in $pip_version"
 			set cmd "sudo -H command pip $argv"
 		case '*'
-			set_color red
+			set_color yellow
 			echo "Using another $pip_version"
 			set cmd "command pip $argv"
 	end
