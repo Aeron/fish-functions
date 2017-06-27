@@ -6,7 +6,6 @@
 #
 
 function fish_prompt -d 'Write out the prompt'
-
 	if not set -q -g __fish_aeron_functions_defined
 		set -g __fish_aeron_functions_defined
 
@@ -19,35 +18,34 @@ function fish_prompt -d 'Write out the prompt'
 		end
 	end
 
-	set -l prompt_pwd (set_color green; basename (prompt_pwd))
-
 	if [ -n "$VIRTUAL_ENV" -a -n "$VIRTUAL_ENV_DISABLE_PROMPT" ]
-		set prompt_pwd (set_color purple; echo -n '('; echo -n "$prompt_pwd"; set_color purple; echo -n ')';)
+		set_color magenta
+	else
+		set_color green
 	end
 
-	echo -n "$prompt_pwd"
+	echo -n (basename (prompt_pwd))
 
 	if [ (_git_branch_name) ]
-		set_color yellow
-		echo -n -s ' ' (_git_branch_name)
+		echo -n (set_color normal) '' (set_color yellow; _git_branch_name)
 
 		if [ (_is_git_dirty) ]
-			set_color red
-			echo -n '𝝙'
+			echo -n (set_color brred) '±'
 		end
 	end
 
-	set_color red
-	echo -n ' ❯ '
-	set_color normal
+	if set -q SUDO_USER
+		echo -n (set_color brred) '⚡'
+	end
 
+	echo -n (set_color red) '❯' (set_color normal)
 end
 
 function fish_right_prompt -a return_status -d 'Write out the right prompt'
 	set -l last_status $status
 
 	set_color blue
-	prompt_pwd
+	echo (prompt_pwd | string split -r -m1 /)[1]
 	set_color normal
 
 	if [ $last_status -ne 0 ]
@@ -71,9 +69,3 @@ function fish_title -d 'Write out tab or window title'
 			echo $_
 	end
 end
-
-# function control_c -s SIGINT
-# 	set_color red
-# 	commandline "echo $status"
-# 	set_color normal
-# end
