@@ -41,7 +41,7 @@ Usage: `ip_up_add <subnetwork> [<comment>]`
 ### > newpy
 Helps to setup a new Python project, its venv and Git repo.
 
-Usage: `newpy [project [package [python]]] [--no-venv] [--no-git]`
+Usage: `newpy [<project> [<package> [<python>]]] [--no-venv] [--no-git]`
 
 ### > notify
 Displays macOS notification.
