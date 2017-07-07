@@ -14,8 +14,8 @@ function fish_prompt -d 'Write out the prompt'
 
 	echo -n (basename (prompt_pwd))
 
-	if test (git symbolic-ref --short HEAD ^ /dev/null)  # fastest way
-		echo -n (set_color normal) '' (set_color yellow; _git_branch_name)
+	if test -d .git
+		echo -n (set_color normal) '' (set_color yellow; git symbolic-ref --short HEAD ^ /dev/null)  # fastest way
 
 		if test (git status -suno ^ /dev/null)  # fastest way
 			echo -n (set_color brred) '±'
