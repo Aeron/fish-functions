@@ -18,9 +18,9 @@ Handy wrapper to colorize current date in `cal`. Arguments usage will reset layo
 Usage: `cal [<arguments>]`
 
 ### > config
-Provides short way to reload/edit config, or edit prompt function.
+Provides short way to reload/edit config file or its home/functions folder, or edit prompt function.
 
-Usage: `config (edit | reload | prompt)`
+Usage: `config [edit | reload | prompt | home | functions]`
 
 ### > curltime
 Measures time for performed CURL request.
