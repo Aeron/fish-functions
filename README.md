@@ -1,5 +1,5 @@
 # Fish Functions
-Just a repo with my functions (to test and play usually) for [Fish](http://fishshell.com) shell.
+Just a repo with my functions (mostly just to test and play) for [Fish](http://fishshell.com) shell.
 
 ## Fish theme
 `fish_prompt.fish` is a theme I currently use. Based on [Kenneth Reitz](https://github.com/kennethreitz)’ original theme for [Oh-my-ZSH](https://github.com/robbyrussell/oh-my-zsh).
@@ -37,6 +37,11 @@ Usage: `fake_smtp [<port>]`
 Easier way to add a subnetwork in `/etc/ppp/ip-up`. Usable for selective VPN traffic.
 
 Usage: `ip_up_add <subnetwork> [<comment>]`
+
+### > newpy
+Helps to setup a new Python project, its venv and Git repo.
+
+Usage: `newpy [project [package [python]]] [--no-venv] [--no-git]`
 
 ### > notify
 Displays macOS notification.
