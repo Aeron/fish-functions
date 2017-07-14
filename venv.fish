@@ -9,16 +9,12 @@ function activate -a quiet -d "Activates Python's venv for current directory"
 	if test -e $full_path
 		source $full_path
 
-		if test -z $quiet
-			set_color green
-			echo "Python's venv for $PWD activated"
-			set_color normal
+		if test -z "$quiet"
+			echo -s (set_color green) "Python's venv for $PWD activated" (set_color normal)
 		end
 	else
-		if test -z $quiet
-			set_color red
-			echo "There's no venv found in current directory"
-			set_color normal
+		if test -z "$quiet"
+			echo (set_color red) "There's no venv found in current directory" (set_color normal)
 		end
 	end
 end
@@ -28,7 +24,7 @@ function _auto_venv -v PWD -d 'Automates Python’s venv (event listner)'
 		deactivate
 	end
 
-	if set -q VIRTUAL_ENV_AUTO
+	if set -qg VIRTUAL_ENV_AUTO -a functions -q activate
 		activate --quiet
 	end
 end
