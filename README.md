@@ -8,6 +8,11 @@ Just a repo with my functions (mostly just to test and play) for [Fish](http://f
 
 ## Functions
 
+### > activate
+Activates Python's venv for current directory. Shorthand for `source ./bin/activate.fish`.
+
+Usage: `activate [--quiet]`
+
 ### > brewup
 Shorthand for Homebrew’s `update`, `upgrade` and `cleanup --prune`.
 
@@ -54,9 +59,9 @@ Simple wrapper to track which version of PIP is used. Also helps with `sudo`.
 Usage: `pip [<whatever>]`
 
 ### > venv
-Simple wrapper for Python’s `venv` module. Also provides shorthand for `. ./bin/activate.fish` and event listener for venv auto-activation/deactivation.
+Simple wrapper for Python’s `venv` module.
 
-Usage: `venv <arguments>`, `activate [--quiet]`
+Usage: `venv <arguments>`
 
 ### > vpn
 Faster way to handle existing PPTP/L2TP connections in macOS. Not so usable for L2TP, because of a shared key.
