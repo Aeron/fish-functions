@@ -6,6 +6,9 @@
 #
 
 function fish_prompt -d 'Write out the prompt'
+	set git_branch (git symbolic-ref --short HEAD ^ /dev/null)  # fastest way
+	set git_modified (git status -suno ^ /dev/null)  # fastest way
+
 	if test -n "$VIRTUAL_ENV" -a -n "$VIRTUAL_ENV_DISABLE_PROMPT"
 		set_color magenta
 	else
@@ -14,13 +17,11 @@ function fish_prompt -d 'Write out the prompt'
 
 	echo -n (basename (prompt_pwd))
 
-	set git_branch (git symbolic-ref --short HEAD ^ /dev/null)  # fastest way
-
 	if test -n "$git_branch"
 		echo -n (set_color normal) ''
 		echo -n (set_color yellow) $git_branch
 
-		if test (git status -suno ^ /dev/null)  # fastest way
+		if test -n "$git_modified"
 			echo -n (set_color brred) '±'
 		end
 	end
@@ -37,7 +38,7 @@ function fish_right_prompt -a return_status -d 'Write out the right prompt'
 
 	echo -sn (set_color blue) (prompt_pwd | string split -r -m1 /)[1] (set_color normal)
 
-	if [ $last_status -ne 0 ]
+	if test $last_status -ne 0
 		echo -s (set_color red) " $last_status" (set_color normal)
 	end
 end
