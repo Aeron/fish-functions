@@ -79,7 +79,7 @@ Displays current time in given timezones, e.g. `US/Pacific`, `UTC`, `Asia/Bangko
 Usage: `tztime <timezones>`
 
 ### unlock
-Disables Gatekeeper check for certain application.
+Disables macOS's Gatekeeper check for certain application.
 
 Usage: `unlock <path>`
 
