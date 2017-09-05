@@ -1,4 +1,4 @@
-function curltime -a url -d "Measures request time via cURL request"
+function curl\-time -a url -d "Measures request time via cURL request"
 	if test -z "$url"
 		echo -s (set_color $fish_color_error) 'URL is required' (set_color normal)
 		return 1
