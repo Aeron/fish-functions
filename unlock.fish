@@ -1,4 +1,4 @@
-function unlock -a path -d "Disables Gatekeeper check for certain application"
+function unlock -a path -d "Disables macOS's Gatekeeper check for certain application"
 	if test -d $path
 		sudo xattr -rd com.apple.quarantine $path
 	else

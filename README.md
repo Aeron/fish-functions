@@ -13,35 +13,40 @@ Activates Python's venv for current directory. Shorthand for `source ./bin/activ
 
 Usage: `activate [--quiet]`
 
-### > brewup
+### > brew-up
 Shorthand for Homebrew’s `update`, `upgrade` and `cleanup --prune`.
 
-Usage: `brewup`
+Usage: `brew-up`
 
 ### > cal
 Handy wrapper to colorize current date in `cal`. Arguments usage will reset layout to normal.
 
 Usage: `cal [<arguments>]`
 
-### > config
-Provides short way to reload/edit config file or its home/functions folder, or edit prompt function.
-
-Usage: `config [edit | reload | prompt | home | functions]`
-
-### > curltime
+### > curl-time
 Measures time for performed CURL request.
 
-Usage: `curltime <url>`
+Usage: `curl-time <url>`
 
-### > fake_smtp
-Runs local Python’s SMTP ``DebuggingServer``.
+### > docker-reset
+Stops all containers, removes them and all images.
 
-Usage: `fake_smtp [<port>]`
+Usage: `docker-reset`
 
-### > ip_up_add
+### > fish-config
+Provides short way to reload/edit config file or its home/functions folder, or edit prompt function.
+
+Usage: `fish-config [edit | reload | prompt | home | functions]`
+
+### > flushdns
+Flushes macOS's DNS cache.
+
+Usage: `flushdns`
+
+### > ip-up-add
 Easier way to add a subnetwork in `/etc/ppp/ip-up`. Usable for selective VPN traffic.
 
-Usage: `ip_up_add <subnetwork> [<comment>]`
+Usage: `ip-up-add <subnetwork> [<comment>]`
 
 ### > newpy
 Helps to setup a new Python project, its venv and Git repo.
@@ -58,6 +63,26 @@ Simple wrapper to track which version of PIP is used. Also helps with `sudo`.
 
 Usage: `pip [<whatever>]`
 
+### > pyclean
+Cleans folder's Python cache and pre-compiled modules recursively.
+
+Usage: `pyclean`
+
+### > smtp
+Runs local Python’s SMTP ``DebuggingServer``.
+
+Usage: `smtp [<port>]`
+
+### > tztime
+Displays current time in given timezones, e.g. `US/Pacific`, `UTC`, `Asia/Bangkok` and etc. See `/usr/share/zoneinfo/` for more.
+
+Usage: `tztime <timezones>`
+
+### unlock
+Disables Gatekeeper check for certain application.
+
+Usage: `unlock <path>`
+
 ### > venv
 Simple wrapper for Python’s `venv` module.
 
@@ -67,8 +92,3 @@ Usage: `venv <arguments>`
 Faster way to handle existing PPTP/L2TP connections in macOS. Not so usable for L2TP, because of a shared key.
 
 Usage: `vpn [list | start <connection> | stop <connection> | switch <connection>]`
-
-### > world_time
-Displays current time in given timezones, e.g. `US/Pacific`, `UTC`, `Asia/Bangkok` and etc. See `/usr/share/zoneinfo` for more.
-
-Usage: `world_time <timezones>`
