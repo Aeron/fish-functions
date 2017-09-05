@@ -2,7 +2,7 @@
 Just a repo with my functions (mostly just to test and play) for [Fish](http://fishshell.com) shell.
 
 ## Fish theme
-`fish_prompt.fish` is a theme I currently use. Based on [Kenneth Reitz](https://github.com/kennethreitz)’ original theme for [Oh-my-ZSH](https://github.com/robbyrussell/oh-my-zsh).
+`fish_prompt.fish` is a theme I currently use. Inspired by [Kenneth Reitz](https://github.com/kennethreitz)’ original theme for [Oh-my-ZSH](https://github.com/robbyrussell/oh-my-zsh).
 
 ![Terminal with Fish](https://user-images.githubusercontent.com/278423/27943158-783e5b80-62e5-11e7-863b-053dd9d897ab.png)
 

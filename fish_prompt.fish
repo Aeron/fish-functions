@@ -1,6 +1,6 @@
 #
 # Aeron theme for Fish.
-# Based on Kenneth Reitz’ original theme for Oh-my-ZSH.
+# Inspired by Kenneth Reitz’ original theme for Oh-my-ZSH.
 #
 # Author: Eugene “Aeron” Glybin <aeron@aeron.cc>
 #
