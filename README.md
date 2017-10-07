@@ -73,6 +73,11 @@ Runs local Python’s SMTP ``DebuggingServer``.
 
 Usage: `smtp [<port>]`
 
+### > source-posix
+Exports variables from POSIX-compatible environment file.
+
+Usage: `source-posix <file.env>`
+
 ### > tztime
 Displays current time in given timezones, e.g. `US/Pacific`, `UTC`, `Asia/Bangkok` and etc. See `/usr/share/zoneinfo/` for more.
 
