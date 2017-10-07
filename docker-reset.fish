@@ -1,4 +1,4 @@
-function docker\-reset -d "Stops all containers, removes them and all images"
+function docker-reset -d "Stops all containers, removes them and all images"
 	set containters_run (docker ps -q)
 	set containters_all (docker ps -a -q)
 	set images_all (docker images -a -q)

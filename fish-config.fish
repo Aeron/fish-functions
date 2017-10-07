@@ -1,4 +1,4 @@
-function fish\-config -a cmd -d 'Handly alias to manage fish config'
+function fish-config -a cmd -d 'Handly alias to manage fish config'
 	set config_home '~/.config/fish'
 	set EDITOR_ALT (string replace w '' $EDITOR)
 
