@@ -1,9 +1,6 @@
 function activate -a quiet -d "Activates Python's venv for current directory"
-	set default_path 'bin/activate.fish'
-	set full_path (string join / $PWD $default_path)
-
-	if test -e $full_path
-		source $full_path
+	if test -e $VIRTUAL_ENV_DIR
+		source (string join / $PWD $VIRTUAL_ENV_DIR 'bin/activate.fish')
 
 		if test -z "$quiet"
 			echo -s (set_color green) "Python's venv for $PWD activated" (set_color normal)
