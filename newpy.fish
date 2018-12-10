@@ -7,7 +7,6 @@ begin
 	set newpy_package_regex '^[a-z]+$'
 	set newpy_gitignore '.gitignore'
 	set newpy_python_gitignore 'https://github.com/github/gitignore/raw/master/Python.gitignore'
-	set newpy_venv_gitignore 'bin/' 'include/' 'man/' 'pyvenv.cfg'
 	set newpy_git_initial 'Initial commit.'
 
 	function _newpy_create_venv -a python
@@ -17,17 +16,23 @@ begin
 
 		set python (which $python)
 
-		eval $python -m venv .
-		source $newpy_default_activate
-
-		echo -e '\n# venv' >> $newpy_gitignore
-		echo -e (string join '\n' $newpy_venv_gitignore) >> $newpy_gitignore
+		if functions -q venv
+			venv
+		else
+			eval $python -m venv .venv
+			source $newpy_default_activate
+			pip install -U pip setuptools wheel
+		end
 	end
 
 	function _newpy_create_git
 		git init -q .
 		git add --all
 		git commit -qam $newpy_git_initial
+
+		if command -s git-flow
+			git flow init -d
+		end
 	end
 
 	function newpy -a project package python -d "Helps to setup a new Python project, its venv and Git repo"
@@ -60,7 +65,7 @@ begin
 		curl -Lso $newpy_gitignore $newpy_python_gitignore
 
 		mkdir $package
-		touch $package/__init__.py
+		echo '__version__ = "0.0.0"' > $package/__init__.py
 
 		if not contains -- --no-venv $argv
 			_newpy_create_venv $python
