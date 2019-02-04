@@ -1,6 +1,6 @@
 function brew-up -d 'Shorthand for Homebrew’s update, upgrade and cleanup with prune'
 	brew update
 	and brew upgrade
-	and brew cleanup
-	and brew prune
+	and brew cleanup --prune=0
+	# and brew prune
 end
