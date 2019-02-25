@@ -1,5 +1,5 @@
 function pip -d 'Handy wrapper for macOS/Homebrew pip'
-	set pip_version (command pip --version)
+	set pip_version (command pip3 --version)
 
 	switch $pip_version 
 		case '* /Library*'
