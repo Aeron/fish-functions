@@ -7,6 +7,6 @@ function pip -d 'Handy wrapper for macOS/Homebrew pip'
 			sudo -H command pip3 $argv
 		case '*'
 			echo -s (set_color yellow) "Using another $pip_version" (set_color normal)
-			command pip $argv
+			command pip3 $argv
 	end
 end
