@@ -1,4 +1,4 @@
-function source-posix -a file -d "Exports variables from POSIX-compatible environment file"
+function source-posix -a file -d "Exports variables from a POSIX-compatible environment file"
 	set sep_comment '#'
 	set sep_value '='
 

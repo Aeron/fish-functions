@@ -1,4 +1,4 @@
-function ip-up-add -a subnet comment -d 'Adds subnet for selective VPN'
+function ip-up-add -a subnet comment -d 'Adds a subnet for a selective VPN'
 	set cidr_regex '\b(([2]([0-4][0-9]|[5][0-5])|[0-1]?[0-9]?[0-9])[.]){3}(([2]([0-4][0-9]|[5][0-5])|[0-1]?[0-9]?[0-9]))\b\/\b([0-9]|[12][0-9]|3[0-2])\b'
 
 	if not echo $subnet | grep -q -E $cidr_regex

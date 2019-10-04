@@ -1,4 +1,4 @@
-function flushdns -d "Flushes macOS's DNS cache"
+function flushdns -d "Flushes a macOS DNS cache"
 	sudo dscacheutil -flushcache
 	sudo killall -HUP mDNSResponder
 end

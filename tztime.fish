@@ -1,4 +1,4 @@
-function tztime -d 'Show current time in given timezones'
+function tztime -d 'Shows current time in given timezones'
 	if test (count $argv) -gt 0
 		for tz in $argv
 			set -x TZ $tz

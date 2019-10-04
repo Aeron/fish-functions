@@ -1,4 +1,4 @@
-function notify -a message title subtitle -d "Displays macOS notification"
+function notify -a message title subtitle -d "Displays a macOS notification"
 	if test -z "$message"
 		set_color red
 		echo "$_: at least message should be provided"

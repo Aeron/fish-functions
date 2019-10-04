@@ -18,7 +18,7 @@ Usage: `activate [-v]`
 
 ### > brew-up
 
-Shorthand for Homebrew’s `update`, `upgrade` and `cleanup --prune`.
+Handy alias for Homebrew’s `update`, `upgrade`, and `cleanup --prune`.
 
 Usage: `brew-up`
 
@@ -30,7 +30,7 @@ Usage: `cal [<arguments>]`
 
 ### > curl-time
 
-Measures time for performed CURL request.
+Measures time for a performed CURL request.
 
 Usage: `curl-time <url>`
 
@@ -42,19 +42,19 @@ Usage: `docker-reset`
 
 ### > fish-config
 
-Provides short way to reload/edit config file or its home/functions folder, or edit prompt function.
+Provides a short way to reload/edit a config file or its home/functions folder, or edit a prompt function.
 
 Usage: `fish-config [edit | reload | prompt | home | functions]`
 
 ### > flushdns
 
-Flushes macOS's DNS cache.
+Flushes a macOS DNS cache.
 
 Usage: `flushdns`
 
 ### > ip-up-add
 
-Easier way to add a subnetwork in `/etc/ppp/ip-up`. Usable for selective VPN traffic.
+Easier way to add a subnetwork in `/etc/ppp/ip-up`. Usable for a selective VPN traffic.
 
 Usage: `ip-up-add <subnetwork> [<comment>]`
 
@@ -66,7 +66,7 @@ Usage: `newpy [<project> [<package> [<python>]]] [--no-venv] [--no-git]`
 
 ### > notify
 
-Displays macOS notification.
+Displays a macOS notification.
 
 Usage: `notify <message> [<title> [<subtitle>]]`
 
@@ -78,7 +78,7 @@ Usage: `pip [<whatever>]`
 
 ### > pyclean
 
-Cleans folder's Python cache and pre-compiled modules recursively.
+Cleans directory Python cache and pre-compiled modules recursively.
 
 Usage: `pyclean`
 
@@ -90,13 +90,13 @@ Usage: `semver [-v]`
 
 ### > smtp
 
-Runs local Python’s SMTP ``DebuggingServer``.
+Runs a local Python SMTP ``DebuggingServer``.
 
 Usage: `smtp [<port>]`
 
 ### > source-posix
 
-Exports variables from POSIX-compatible environment file.
+Exports variables from a POSIX-compatible environment file.
 
 Usage: `source-posix <file.env> [-v]`
 
@@ -108,7 +108,7 @@ Usage: `tztime <timezones>`
 
 ### > unlock
 
-Disables macOS's Gatekeeper check for certain application.
+Disables macOS Gatekeeper for a specified application.
 
 Usage: `unlock <path>`
 
@@ -120,6 +120,6 @@ Usage: `venv <arguments>`
 
 ### > vpn
 
-Faster way to handle existing PPTP/L2TP connections in macOS. Not so usable for L2TP, because of a shared key.
+Faster way to handle existing PPTP/L2TP connections in macOS. _Not so usable for L2TP_, because of a shared key.
 
 Usage: `vpn [list | start <connection> | stop <connection> | switch <connection>]`

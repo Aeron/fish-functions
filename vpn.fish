@@ -1,4 +1,4 @@
-function vpn -a cmd name_or_index -d 'Handles existing OS X VPN services'
+function vpn -a cmd name_or_index -d 'Handles existing macOS VPN (PPTP and L2TP) services'
 	set -l service_name
 	set -l LIST 'list'
 	set -l START 'start'
@@ -48,7 +48,7 @@ function vpn -a cmd name_or_index -d 'Handles existing OS X VPN services'
 			return 1
 		end
 		set service_name $names[$name_or_index]
-	else 
+	else
 		if not contains $name_or_index $names
 			set_color red
 			echo '$_: invalid service name'
@@ -94,5 +94,5 @@ function vpn -a cmd name_or_index -d 'Handles existing OS X VPN services'
 		# it's ok to have it inside loop, because sometimes better to kick it twice or even more
 		scutil --nc $cmd $service_name   # `stop` command not really working in Yosemite (see https://discussions.apple.com/message/27696050)
 	end
- 
+
 end

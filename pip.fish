@@ -1,4 +1,4 @@
-function pip -d 'Handy wrapper for macOS/Homebrew pip'
+function pip -d 'Handy wrapper for a macOS/Homebrew pip'
 	set pip_version (command pip3 --version)
 
 	switch $pip_version 
