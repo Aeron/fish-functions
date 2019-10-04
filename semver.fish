@@ -1,42 +1,60 @@
 function semver -d 'Evaluates an actual semantic version for Git Flow repo'
-    set _branch_develop 'develop/*'
-    set _branch_release 'release/*'
-    set _regex_feature '(finishes|delivers)\ #[0-9]+'
-    set _regex_fix 'fixes\ #[0-9]+'
-    set _regex_semver '[0-9]+\.[0-9]+\.[0-9]+'
+    set branch_develop 'develop/*'
+    set branch_release 'release/*'
+    set regex_feature '(finishes|delivers|implements|closes)\ #[0-9]+'
+    set regex_fix '(fixes|resolves)\ #[0-9]+'
+    set regex_semver '[0-9]+\.[0-9]+\.[0-9]+'
 
     set last_release (
         git log -E \
-        --grep=$_branch_release --branches=$_branch_develop \
+        --grep=$branch_release --branches=$branch_develop \
         --show-notes --oneline \
         HEAD | head -n 1
     )
 
     set last_release_revision (string sub --length 7 $last_release)
-    set last_release_version (string match --regex $_regex_semver $last_release)
+
+    if test -z $last_release_revision
+        set last_release_revision_range HEAD
+    else
+        set last_release_revision_range $last_release_revision..HEAD
+    end
+
+    set last_release_version (string match --regex $regex_semver $last_release)
+
+    if test -z $last_release_version
+        set last_release_version "0.0.0"
+    end
+
     set last_release_version_info (string split . $last_release_version)
 
     set features_since_last_release (
         git log -i -E \
-        --grep=$_regex_feature --branches=$_branch_develop \
+        --grep=$regex_feature --branches=$branch_develop \
         --show-notes --oneline \
-        $last_release_revision..HEAD | wc -l
+        $last_release_revision_range | wc -l
     )
 
     set last_feature (
         git log -i -E \
-        --grep=$_regex_feature --branches=$_branch_develop \
+        --grep=$regex_feature --branches=$branch_develop \
         --show-notes --oneline \
-        $last_release_revision..HEAD | head -n 1
+        $last_release_revision_range | head -n 1
     )
 
     set last_feature_revision (string sub --length 7 $last_feature)
 
+    if test -z $last_feature_revision
+        set last_feature_revision_range HEAD
+    else
+        set last_feature_revision_range $last_feature_revision..HEAD
+    end
+
     set fixes_since_last_feature (
         git log -i -E \
-        --grep=$_regex_fix --branches=$_branch_develop \
+        --grep=$regex_fix --branches=$branch_develop \
         --show-notes --oneline \
-        $last_feature_revision..HEAD | wc -l
+        $last_feature_revision_range | wc -l
     )
 
     set actual_release_version (
