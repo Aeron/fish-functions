@@ -6,7 +6,10 @@ function source-posix -a file -d "Exports variables from POSIX-compatible enviro
 		set line (string split -m1 $sep_value (string split -r -m1 $sep_comment $line)[1])
 
 		if test -n "$line[1]" -a -n "$line[2]"
-			# echo $line
+			if contains -- -v $argv
+				echo $line
+			end
+
 			set -gx $line[1] $line[2]
 		end
 	end
