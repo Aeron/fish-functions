@@ -63,9 +63,12 @@ function semver -d 'Evaluates an actual semantic version for Git Flow repo'
         (math $last_release_version_info[3] + $fixes_since_last_feature)
     )
 
-    # echo "Last release revision:" (string trim $last_release_revision)
-    # echo "Last feature revision:" (string trim $last_feature_revision)
-    # echo "Minor:" (string trim $features_since_last_release)
-    # echo "Patch:" (string trim $fixes_since_last_feature)
+    if contains -- -v $argv
+        echo "Last release revision:" (string trim $last_release_revision)
+        echo "Last feature revision:" (string trim $last_feature_revision)
+        echo "Minor:" (string trim $features_since_last_release)
+        echo "Patch:" (string trim $fixes_since_last_feature)
+    end
+
     echo $last_release_version "→" $actual_release_version
 end
