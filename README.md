@@ -14,7 +14,7 @@ Just a repo with my functions (mostly just to test and play) for [Fish](http://f
 
 Activates Python's venv for current directory. Shorthand for `source ./bin/activate.fish`.
 
-Usage: `activate [--quiet]`
+Usage: `activate [-v]`
 
 ### > brew-up
 
@@ -82,6 +82,12 @@ Cleans folder's Python cache and pre-compiled modules recursively.
 
 Usage: `pyclean`
 
+### > semver
+
+Evaluates an actual semantic version for a Git Flow repo.
+
+Usage: `semver [-v]`
+
 ### > smtp
 
 Runs local Python’s SMTP ``DebuggingServer``.
@@ -92,7 +98,7 @@ Usage: `smtp [<port>]`
 
 Exports variables from POSIX-compatible environment file.
 
-Usage: `source-posix <file.env>`
+Usage: `source-posix <file.env> [-v]`
 
 ### > tztime
 
