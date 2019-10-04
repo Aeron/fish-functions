@@ -1,4 +1,4 @@
-function semver -d 'Evaluates an actual semantic version for Git Flow repo'
+function semver -d 'Evaluates an actual semantic version for a Git Flow repo'
     set branch_develop 'develop/*'
     set branch_release 'release/*'
     set regex_feature '(finishes|delivers|implements|closes)\ #[0-9]+'
