@@ -76,6 +76,12 @@ Simple wrapper to track which version of PIP is used. Also helps with `sudo`.
 
 Usage: `pip [<whatever>]`
 
+### > pip-up
+
+Updates local Python packages, like `pip`, `wheel` and `setuptools`, as well as everything listed in `~/.requirements.txt`.
+
+Usage: `pip-up`
+
 ### > pyclean
 
 Cleans directory Python cache and pre-compiled modules recursively.
