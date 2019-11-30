@@ -1,13 +1,13 @@
 function semver -d 'Evaluates an actual semantic version for a Git Flow repo'
     set branch_develop 'develop/*'
-    set branch_release 'release/*'
+    set regex_release '(release/*|hotfix/*)'
     set regex_feature '(finishes|delivers|implements|closes)\ #[0-9]+'
     set regex_fix '(fixes|resolves)\ #[0-9]+'
     set regex_semver '[0-9]+\.[0-9]+\.[0-9]+'
 
     set last_release (
         git log -E \
-        --grep=$branch_release --branches=$branch_develop \
+        --grep=$regex_release --branches=$branch_develop \
         --show-notes --oneline \
         HEAD | head -n 1
     )
@@ -45,7 +45,20 @@ function semver -d 'Evaluates an actual semantic version for a Git Flow repo'
     set last_feature_revision (string sub --length 7 $last_feature)
 
     if test -z $last_feature_revision
-        set last_feature_revision_range HEAD
+        set last_tag (
+            git log \
+            --grep="Merge tag" --branches=$branch_develop \
+            --show-notes --oneline \
+            $last_release_revision_range | head -n 1
+        )
+
+        set last_tag_revision (string sub --length 7 $last_tag)
+
+        if test -z $last_tag_revision
+            set last_feature_revision_range HEAD
+        else
+            set last_feature_revision_range $last_tag_revision..HEAD
+        end
     else
         set last_feature_revision_range $last_feature_revision..HEAD
     end
