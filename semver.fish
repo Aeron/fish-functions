@@ -70,18 +70,40 @@ function semver -d 'Evaluates an actual semantic version for a Git Flow repo'
         $last_feature_revision_range | wc -l
     )
 
-    set actual_release_version (
-        string join . $last_release_version_info[1] \
-        (math $last_release_version_info[2] + $features_since_last_release) \
-        (math $last_release_version_info[3] + $fixes_since_last_feature)
-    )
+    if test -z $last_release_version_info[1]
+        set version_major 0
+    else
+        set version_major $last_release_version_info[1]
+    end
+
+    if test -z $last_release_version_info[2]
+        set version_minor $features_since_last_release
+    else
+        set version_minor (
+            math $last_release_version_info[2] + $features_since_last_release
+        )
+    end
+
+    if test $version_minor -gt $last_release_version_info[2]
+        set version_patch $fixes_since_last_feature
+    else
+        set version_patch (
+            math $last_release_version_info[3] + $fixes_since_last_feature
+        )
+    end
+
+    set version_major (string trim $version_major)
+    set version_minor (string trim $version_minor)
+    set version_patch (string trim $version_patch)
 
     if contains -- -v $argv
         echo "Last release revision:" (string trim $last_release_revision)
         echo "Last feature revision:" (string trim $last_feature_revision)
-        echo "Minor:" (string trim $features_since_last_release)
-        echo "Patch:" (string trim $fixes_since_last_feature)
+        echo "Added minor:" (string trim $features_since_last_release)
+        echo "Added patch:" (string trim $fixes_since_last_feature)
     end
 
-    echo $last_release_version "→" $actual_release_version
+    echo $last_release_version "→" (
+        string join . $version_major $version_minor $version_patch
+    )
 end
