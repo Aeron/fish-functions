@@ -76,7 +76,7 @@ function semver -d 'Evaluates an actual semantic version for a Git Flow repo'
         set version_major $last_release_version_info[1]
     end
 
-    if test -z $last_release_version_info[2]
+    if test $last_release_version_info[2] -eq 0
         set version_minor $features_since_last_release
     else
         set version_minor (
