@@ -19,6 +19,16 @@ function fish_prompt -d 'Write out the prompt'
 
 	if test -n "$git_branch"
 		echo -n (set_color normal) ''
+
+		if test -n "$__fish_git_prompt_shorten_branch_len" \
+				-a (string length $git_branch) \
+				-gt $__fish_git_prompt_shorten_branch_len
+			set git_branch (
+				string sub --length=$__fish_git_prompt_shorten_branch_len $git_branch
+			)
+			set git_branch "$git_branch…"
+		end
+
 		echo -n (set_color yellow) $git_branch
 
 		if test -n "$git_modified"
