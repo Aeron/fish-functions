@@ -1,4 +1,4 @@
-function pip-up -d "Update local Python packages"
+function pip-up -d "Updates local Python packages"
     set default_requirements_path ~/.requirements.txt
 
     command pip install -U pip wheel setuptools
@@ -8,4 +8,6 @@ function pip-up -d "Update local Python packages"
     else
         echo -s (set_color yellow) "$default_requirements_path not found" (set_color normal)
     end
+
+    command pip cache purge -qqq
 end
