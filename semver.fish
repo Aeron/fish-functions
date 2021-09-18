@@ -103,6 +103,12 @@ function semver -d 'Evaluates an actual semantic version for a Git Flow repo'
         echo "Added patch:" (string trim $fixes_since_last_feature)
     end
 
+    if contains -- -l $argv
+        git log -i -E \
+        --grep="#[0-9]+" --branches=$branch_develop \
+        --reverse $last_release_revision..HEAD | grep -i -E "#[0-9]+"
+    end
+
     echo $last_release_version "→" (
         string join . $version_major $version_minor $version_patch
     )
