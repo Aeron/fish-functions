@@ -1,6 +1,7 @@
 function fish-config -a cmd -d 'Handy alias to manage a fish config'
-	set config_home '~/.config/fish'
-	set EDITOR_ALT (string replace w '' $EDITOR)
+	# set config_home '~/.config/fish'
+	set config_home $__fish_config_dir
+	set EDITOR_ALT (string replace -r '\-?w' '' $EDITOR)
 
 	switch "$cmd"
 		case 'edit'

@@ -6,8 +6,8 @@
 #
 
 function fish_prompt -d 'Write out the prompt'
-	set git_branch (git symbolic-ref --short HEAD ^ /dev/null)  # fastest way
-	set git_modified (git status -suno ^ /dev/null)  # fastest way
+	set git_branch (git symbolic-ref --short HEAD 2> /dev/null)  # fastest way
+	set git_modified (git status -suno 2> /dev/null)  # fastest way
 
 	if test -n "$VIRTUAL_ENV" -a -n "$VIRTUAL_ENV_DISABLE_PROMPT"
 		set_color magenta
