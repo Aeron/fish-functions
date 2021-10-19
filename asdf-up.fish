@@ -3,8 +3,10 @@ function asdf-up -d 'Updates asdf, its plugins, and reshims packages'
     asdf plugin update --all
 
     for plugin in $ASDF_GLOBAL_LATEST
-        asdf global $plugin latest
+        asdf install $plugin latest
+        and asdf global $plugin latest
     end
 
     asdf reshim
+    and asdf list
 end
