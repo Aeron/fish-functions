@@ -7,6 +7,10 @@ function asdf-up -d 'Updates asdf, its plugins, and reshims packages'
         and asdf global $plugin latest
     end
 
+    if contains -- --prune $argv; and functions -q asdf-prune
+        asdf-prune -f
+    end
+
     asdf reshim
     and asdf list
 end
