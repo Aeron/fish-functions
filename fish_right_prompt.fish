@@ -4,6 +4,8 @@
 #
 # Author: Eugene “Aeron” Glybin <aeron@aeron.cc>
 #
+# Comment: Not using it much because of Starship <https://starship.rs>
+#
 
 function fish_right_prompt -a return_status -d 'Writes out the right prompt'
     set -l last_status $status
