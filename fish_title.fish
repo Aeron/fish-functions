@@ -9,6 +9,6 @@ function fish_title -d 'Writes out tab or window title'
             echo -ns "🐠 $pwd"
         end
     else
-        echo "🚀 $_"
+        echo -ns "🚀 $_"
     end
 end
