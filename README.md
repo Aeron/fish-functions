@@ -55,6 +55,12 @@ Measures time for a performed CURL request.
 
 Usage: `curl-time <url>`
 
+### > date-hash
+
+Displays current timestamp hash (hexadecimal representation).
+
+Usage: `date-hash`
+
 ### > docker-reset
 
 Stops all containers, removes them and all images.
@@ -73,6 +79,18 @@ Usage: `fish-config [edit | reload | prompt | home | functions]`
 Flushes a macOS DNS cache.
 
 Usage: `flushdns`
+
+### > gen-openssl-cert
+
+Generates a simple OpenSSL X509 certificate.
+
+Usage: `gen-openssl-cert [<cn>] [<days>]`
+
+### > gen-ssh-key
+
+Generates an ed25519 SSH key.
+
+Usage: `gen-ssh-key [<filename>] [<comment>]`
 
 ### > ip-up-add
 
@@ -176,9 +194,9 @@ Usage: `unlock <path>`
 
 Updates macOS software, Homebrew, asdf, and local Python packages.
 
-An alias for `soft-up`, `brew-up`, `asdf-up`, and `pip-up`.
+An alias for `soft-up`, `brew-up`, (optionally) `asdf-up`, and `pip-up`.
 
-Usage: `up-up`
+Usage: `up-up [--all]`
 
 ### > venv
 
