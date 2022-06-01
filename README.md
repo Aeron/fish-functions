@@ -92,6 +92,12 @@ Generates an ed25519 SSH key.
 
 Usage: `gen-ssh-key [<filename>] [<comment>]`
 
+### > get-my-ip
+
+Displays the current IP addresses (using [ifconfig.co](https://ifconfig.co)).
+
+Usage: `get-my-ip`
+
 ### > ip-up-add
 
 Easier way to add a subnetwork in `/etc/ppp/ip-up`. Usable for a selective VPN traffic.
