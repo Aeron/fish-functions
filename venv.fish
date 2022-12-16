@@ -1,11 +1,18 @@
 begin
-	set default_dir ".venv"
+	if test -z $VIRTUAL_ENV_DIR
+		set default_dir ".venv"
+	else
+		set default_dir $VIRTUAL_ENV_DIR
+	end
 
 	function _remove_venv
 		if test -d $default_dir
 			rm -rf $default_dir
 		else
-			echo -s (set_color yellow) "No venv ($default_dir directory) found" (set_color normal)
+			echo -s \
+				(set_color yellow) \
+				"No venv ($default_dir directory) found" \
+				(set_color normal)
 		end
 	end
 
