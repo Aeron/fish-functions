@@ -8,9 +8,7 @@ function asdf-prune -d "Removes older asdf plugin versions"
         set current_plugin $current[1]
         set current_version $current[2]
 
-        set older_versions (
-            string trim (string replace '*' '' (asdf list $current_plugin))
-        )
+        set older_versions (string trim --chars=' *' (asdf list $current_plugin))
         set -e older_versions[(contains -i $current_version $older_versions)]
 
         for older_version in $older_versions
