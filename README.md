@@ -110,6 +110,12 @@ Displays or sets current Kube context.
 
 Usage: `kube-ctx [<context>]`
 
+### > launchlap-reset
+
+Resets macOS Launchpad layout.
+
+Usage: `launchpad-reset`
+
 ### > newpy
 
 Helps to setup a new Python project, its venv and Git repo.
@@ -133,6 +139,12 @@ Usage: `pbcopy-gpg [<fingerprint>]`
 Copies an SSH public key.
 
 Usage: `pbcopy-ssh [<type>]`
+
+### > ping
+
+A wrapper around the `ping` with a default address (1.1.1.1).
+
+Usage: `ping [<arguments>]`
 
 ### > pip-reset
 
