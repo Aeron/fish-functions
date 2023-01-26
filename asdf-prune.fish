@@ -1,6 +1,6 @@
 function asdf-prune -d "Removes older asdf plugin versions"
     if contains -- -f $argv
-        set confirm 'y'
+        set force 'y'
     end
 
     for current in (asdf current)
@@ -13,6 +13,8 @@ function asdf-prune -d "Removes older asdf plugin versions"
 
         for older_version in $older_versions
             echo -s "Found an older version for " $current_plugin ": " $older_version
+
+            set confirm $force
 
             if test -z $confirm
                 read -P 'Do you want to prune it? [y/N] ' confirm
