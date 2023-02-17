@@ -34,7 +34,7 @@ Usage: `asdf-prune [-f]`
 
 Updates asdf, its plugins, and reshims packages.
 
-Usage: `asdf-up [--prune]`
+Usage: `asdf-up [--prune] [--check-only]`
 
 ### > brew-up
 
@@ -179,9 +179,9 @@ Usage: `smtp [<port>]`
 
 ### > soft-up
 
-Updates all macOS (App Store) applications.
+Updates macOS software.
 
-Usage: `soft-up`
+Usage: `soft-up [--check-only]`
 
 ### > source-posix
 
@@ -212,7 +212,7 @@ Usage: `unlock <path>`
 
 Updates macOS software, Homebrew, asdf, and local Python packages.
 
-An alias for `soft-up`, `brew-up`, (optionally) `asdf-up`, and `pip-up`.
+An alias for `soft-up`, `brew-up`, `asdf-up`, and `pip-up`.
 
 Usage: `up-up [--all]`
 
@@ -220,7 +220,7 @@ Usage: `up-up [--all]`
 
 Simple wrapper for Python’s `venv` module.
 
-Usage: `venv <arguments>`
+Usage: `venv [<arguments>] [--reset] [--rm]`
 
 ### > vpn
 
