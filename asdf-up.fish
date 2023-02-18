@@ -2,7 +2,8 @@ function asdf-up -d 'Updates asdf, its plugins, and reshims packages'
     # asdf update  # managed by Homebrew
     asdf plugin update --all
 
-    if contains -- --check-only $argv
+    if contains -- --check-only $argv; and functions -q asdf-check
+        asdf-check --no-update
         return
     end
 
