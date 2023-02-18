@@ -24,6 +24,12 @@ Activates Python's venv for current directory. A shorthand for
 
 Usage: `activate [-v]`
 
+### > asdf-check
+
+Checks for asdf plugin newer versions.
+
+Usage: `asdf-check [--no-update]`
+
 ### > asdf-prune
 
 Removes older asdf plugin versions.
