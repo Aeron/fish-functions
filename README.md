@@ -171,6 +171,18 @@ Cleans directory Python cache and pre-compiled modules recursively.
 
 Usage: `pyclean`
 
+### > rtx-check
+
+Checks for rtx plugin newer versions.
+
+Usage: `rtx-check [--verbose]`
+
+### > rtx-up
+
+Updates rtx packages (and reshims them).
+
+Usage: `rtx-up [--check-only]`
+
 ### > semver
 
 Evaluates an actual semantic version for a Git Flow repo.
@@ -194,6 +206,12 @@ Usage: `soft-up [--check-only]`
 Exports variables from a POSIX-compatible environment file.
 
 Usage: `source-posix <file.env> [-v]`
+
+### > sri-hash
+
+Calculates the subresource integrity hash for a given file.
+
+Usage: `sri-hash <resource-file>`
 
 ### > startship-config
 
