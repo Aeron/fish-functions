@@ -11,11 +11,11 @@ function up-up -d 'Updates macOS software, Homebrew, asdf, and local Python pack
     brew-up
 
     if contains -- --all $argv
-        echo -se (set_color green) "🚀 Updating ASDF packages" (set_color normal)
-        asdf-up
+        echo -se (set_color green) "🚀 Updating rtx packages" (set_color normal)
+        rtx-up
     else
-        echo -se (set_color cyan) "🔍 Checking ASDF packages" (set_color normal)
-        asdf-up --check-only
+        echo -se (set_color cyan) "🔍 Checking rtx packages" (set_color normal)
+        rtx-up --check-only
     end
 
     echo -se (set_color green) "🚀 Updating Python packages" (set_color normal)
