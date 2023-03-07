@@ -8,7 +8,7 @@ function rtx-up -d 'Updates rtx packages'
         rtx global $plugin@latest
     end
 
-    rtx install $RTX_GLOBAL_LATEST
+    rtx install
 
     if contains -- --prune $argv
         rtx prune
