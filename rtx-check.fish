@@ -34,7 +34,7 @@ begin
                 echo -s (set_color blue) \
                     "$current_plugin has a newer version: $newer_version" \
                     (set_color normal)
-                set number $number + 1
+                set number (math $number + 1)
             end
         end
 
