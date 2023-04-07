@@ -178,7 +178,7 @@ Interactive [`rg`][ripgrep]+[`sk`][skim] fuzzy finder.
 Usage: `rgsk [RG_QUERY [SK_QUERY]]`
 
 [ripgrep]: https://github.com/BurntSushi/ripgrep
-[skim]: https://github.com/lotabout/skim#preview-window
+[skim]: https://github.com/lotabout/skim
 
 ### > rtx-check
 
