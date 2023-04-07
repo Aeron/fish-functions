@@ -171,6 +171,15 @@ Cleans directory Python cache and pre-compiled modules recursively.
 
 Usage: `pyclean`
 
+### > rgsk
+
+Interactive [`rg`][ripgrep]+[`sk`][skim] fuzzy finder.
+
+Usage: `rgsk [RG_QUERY [SK_QUERY]]`
+
+[ripgrep]: https://github.com/BurntSushi/ripgrep
+[skim]: https://github.com/lotabout/skim#preview-window
+
 ### > rtx-check
 
 Checks for rtx plugin newer versions.
