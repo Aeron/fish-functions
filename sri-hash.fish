@@ -4,5 +4,5 @@ function sri-hash -d 'Calculates subresource integrity hash'
         return 1
     end
 
-    echo sha386-(cat $argv[1] | openssl dgst -sha384 -binary | openssl base64 -A)
+    echo sha384-(openssl dgst -sha384 -binary $argv[1] | openssl base64 -A)
 end
