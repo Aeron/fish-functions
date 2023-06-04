@@ -9,6 +9,11 @@ function pip-up -d "Updates local Python packages"
         set default_requirements_path ~/.requirements.txt
     end
 
+    if test -n $VIRTUAL_ENV
+        echo -s (set_color $fish_color_error) "error: venv is active" (set_color normal)
+        return 1
+    end
+
     command pip install -U pip wheel setuptools
 
     if test -n $default_requirements_path
