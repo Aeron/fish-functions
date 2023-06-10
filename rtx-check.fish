@@ -12,19 +12,27 @@ begin
     end
 
     function rtx-check -d "Checks for rtx plugin newer versions"
+        set verbose (contains -- --verbose $argv; or contains -- -v $argv; and echo 1)
         set number 0
 
-        for current in (rtx current)
-            set current (string split -n -f1,2 " " $current)
+        for current in (rtx outdated | tail -n +2)
+            set current (string split -n -f1,3,4 " " $current)
             set current_plugin $current[1]
             set current_version $current[2]
-            set current_version_info (_extract_version $current[2])
+            set current_version_info (_extract_version $current_version)
 
-            # asking for the latest but keeping the major version in mind
-            set newer_version (rtx latest $current_plugin@$current_version_info[1].)
+            # skipping if a version does not split
+            if test "$current_version_info[1]" = "$current_version"
+                if test $verbose
+                    echo "$current_plugin: $current_version (skipping)"
+                end
+                continue
+            end
+
+            set newer_version $current[3]
             set newer_version_info (_extract_version $newer_version)
 
-            if contains -- --verbose $argv
+            if test $verbose
                 echo "$current_plugin: $current_version vs $newer_version"
             end
 
