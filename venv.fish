@@ -1,9 +1,9 @@
 begin
-	if test -z $VIRTUAL_ENV_DIR
+	set default_dir $VIRTUAL_ENV_DIR
+
+	if test -z "$default_dir"
 		set default_dir ".venv"
 	else
-		set default_dir $VIRTUAL_ENV_DIR
-	end
 
 	function _remove_venv
 		if test -d $default_dir
@@ -27,19 +27,24 @@ begin
 		_create_venv
 	end
 
+	function _upgrade_venv
+		if functions -q deactivate
+			deactivate
+		end
+
+		command python3 -m venv --upgrade $default_dir
+		and activate --quiet
+	end
+
 	function venv -d 'Handy wrapper for `python3 -m venv`'
 		if contains -- --rm $argv
 			_remove_venv
+		else if contains -- --reset $argv
+			_reset_venv
+		else if contains -- --upgrade $argv
+			_upgrade_venv
 		else
-			if contains -- --reset $argv
-				_reset_venv
-			else
-				_create_venv
-			end
-
-			# if contains -- --install-requirements $argv
-			# 	pip install -r ./requirements.txt
-			# end
+			_create_venv
 		end
 	end
 end
