@@ -77,22 +77,24 @@ begin
         echo "    kick [OPTS...] NAME [TARGET]"
         echo ""
         echo "Options:"
-        echo "    --python    Creates a Python project"
-        echo "    --go        Creates a Go project"
-        echo "    --rust      Creates a Rust project"
+        echo "    --lang python    Creates a Python project"
+        echo "    --lang go        Creates a Go project"
+        echo "    --lang rust      Creates a Rust project"
         echo ""
-        echo "    --lib       Specifies the project is a library"
+        echo "    --lib            Specifies the project is a library"
         echo ""
-        echo "    --no-git    Ignores Git VCS initialization"
-        echo "    --no-venv   Ignores Python virtual environment creation"
+        echo "    --no-git         Ignores Git VCS initialization"
+        echo "    --no-venv        Ignores Python virtual environment creation"
         echo ""
         echo "Parameters:"
-        echo "    NAME        A project name [required]"
-        echo "    TARGET      A target directory [default: '.']"
+        echo "    NAME             A project name [required]"
+        echo "    TARGET           A target directory [default: '.']"
     end
 
-	function kick -d "Kickstart a new software development project"
-		if contains -- --help $argv; or contains -- -h $argv; or test -z "$argv"
+	function kick -d "Kickstarts a new software development project"
+		argparse --ignore-unknown 'h/help' 'l/lang=?' -- $argv
+
+		if test $_flag_help; or test -z "$argv"
 			echo -e "kick (short for kickstart) help you start a new software development project.\n"
 			_get_help
 			return 0
@@ -116,14 +118,12 @@ begin
 			set target $current_dir
 		end
 
-		if contains -- --python $argv
-			set lang python
-		else if contains -- --go $argv
-			set lang go
-		else if contains -- --rust $argv
-			set lang rust
-		else
-			echo -s (set_color $fish_color_error) "error: no language specified" (set_color normal)
+		if test -z "$_flag_lang"
+			read -P 'Choose a language [python|go|rust]: ' _flag_lang
+		end
+
+		if not contains $_flag_lang python go rust
+			echo -s (set_color $fish_color_error) "error: no suitable language specified" (set_color normal)
 			_get_help
 			return 1
 		end
@@ -138,7 +138,7 @@ begin
 			and cd $target
 		end
 
-		switch $lang
+		switch $_flag_lang
 			case python; _create_python $name
 			case go; _create_go $name
 			case rust; _create_rust $name
