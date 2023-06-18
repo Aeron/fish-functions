@@ -119,9 +119,9 @@ Usage:
     kick [OPTS...] NAME [TARGET]
 
 Options:
-    --lang python    Creates a Python project
-    --lang go        Creates a Go project
-    --lang rust      Creates a Rust project
+    --lang=python    Creates a Python project
+    --lang=go        Creates a Go project
+    --lang=rust      Creates a Rust project
 
     --lib            Specifies the project is a library
 
