@@ -110,6 +110,29 @@ Easier way to add a subnetwork in `/etc/ppp/ip-up`. Usable for a selective VPN t
 
 Usage: `ip-up-add <subnetwork> [<comment>]`
 
+### > kick
+
+Kickstarts a new software development project.
+
+```
+Usage:
+    kick [OPTS...] NAME [TARGET]
+
+Options:
+    --lang python    Creates a Python project
+    --lang go        Creates a Go project
+    --lang rust      Creates a Rust project
+
+    --lib            Specifies the project is a library
+
+    --no-git         Ignores Git VCS initialization
+    --no-venv        Ignores Python virtual environment creation
+
+Parameters:
+    NAME             A project name [required]
+    TARGET           A target directory [default: '.']
+```
+
 ### > kube-ctx
 
 Displays or sets current Kube context.
@@ -121,12 +144,6 @@ Usage: `kube-ctx [<context>]`
 Resets macOS Launchpad layout.
 
 Usage: `launchpad-reset`
-
-### > newpy
-
-Helps to setup a new Python project, its venv and Git repo.
-
-Usage: `newpy [<project> [<package> [<python>]]] [--no-venv] [--no-git]`
 
 ### > notify
 
