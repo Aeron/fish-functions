@@ -22,7 +22,7 @@ begin
 		touch pyproject.toml requirements.txt
 
 		mkdir -p $package
-		echo -e '__version__ = "0.0.0"\n' > $package/__init__.py
+		echo '__version__ = "0.0.0"' > $package/__init__.py
 
 		if not contains -- --no-venv $argv
 			if functions -q venv
@@ -67,7 +67,7 @@ begin
 		go mod init $name
 
 		mkdir -p $package
-		echo -e "package main\n" > $package/main.go
+		echo "package main" > $package/main.go
 
 		if not contains -- --no-git $argv
 			curl -Lso .gitignore $go_gitignore
@@ -163,7 +163,7 @@ begin
 			return 1
 		end
 
-		echo -e "# $name\n" > README.md
+		echo "# $name" > README.md
 
 		if not contains -- --no-git $argv
 			git add --all
