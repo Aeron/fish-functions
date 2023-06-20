@@ -7,7 +7,10 @@ begin
 			set package (string trim (string replace '-' '_' "$name"))
 
 			if not string match -aq -r '^[a-z_]+$' "$package"
-				echo -s (set_color $fish_color_error) "$package does not comply with package naming" (set_color normal)
+				echo -s \
+					(set_color $fish_color_error) \
+					"$package does not comply with package naming" \
+					(set_color normal)
 				return 1
 			end
 
@@ -64,7 +67,7 @@ begin
 		go mod init $name
 
 		mkdir -p $package
-		touch $package/main.go
+		echo -e "package main\n" > $package/main.go
 
 		if not contains -- --no-git $argv
 			curl -Lso .gitignore $go_gitignore
@@ -95,7 +98,9 @@ begin
 		argparse --ignore-unknown 'h/help' 'l/lang=?' -- $argv
 
 		if test $_flag_help; or test -z "$argv"
-			echo -e "kick (short for kickstart) help you start a new software development project.\n"
+			echo -e \
+				"kick (short for kickstart) help you start a new" \
+				"software development project.\n"
 			_get_help
 			return 0
 		end
@@ -107,7 +112,10 @@ begin
 		set target $params[2]
 
 		if test -z "$name"
-			echo -s (set_color $fish_color_error) "error: name is a required argument" (set_color normal)
+			echo -s \
+				(set_color $fish_color_error) \
+				"error: name is a required argument" \
+				(set_color normal)
 			_get_help
 			return 1
 		end
@@ -123,14 +131,19 @@ begin
 		end
 
 		if not contains $_flag_lang python go rust
-			echo -s (set_color $fish_color_error) "error: no suitable language specified" (set_color normal)
-			_get_help
+			echo -s \
+				(set_color $fish_color_error) \
+				"error: no suitable language specified; must be python, go, or rust" \
+				(set_color normal)
 			return 1
 		end
 
 		if test "$target" != "$current_dir"
 			if test -d $target -a -n "$(command ls -1qA)"
-				echo -s (set_color $fish_color_error) "error: directory '$target' exists, and it is not empty" (set_color normal)
+				echo -s \
+					(set_color $fish_color_error) \
+					"error: directory '$target' exists, and it is not empty" \
+					(set_color normal)
 				return 1
 			end
 
