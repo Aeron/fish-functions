@@ -3,7 +3,7 @@ begin
 
 	if test -z "$default_dir"
 		set default_dir ".venv"
-	else
+	end
 
 	function _remove_venv
 		if test -d $default_dir
