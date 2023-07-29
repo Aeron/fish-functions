@@ -14,7 +14,7 @@ begin
 				return 1
 			end
 
-			set "src/$package"
+			set package "src/$package"
 		else
 			set package 'app'
 		end
@@ -23,6 +23,8 @@ begin
 
 		mkdir -p $package
 		echo '__version__ = "0.0.0"' > $package/__init__.py
+
+		mkdir tests
 
 		if not contains -- --no-venv $argv
 			if functions -q venv
@@ -108,6 +110,8 @@ begin
 		# HACK: `function -a <args>` does not quite work here
 		# since all options goes to named params first
 		set params (string match --invert -- '-*' $argv)
+		set flags (string match -- '-*' $argv)
+
 		set name $params[1]
 		set target $params[2]
 
@@ -152,9 +156,9 @@ begin
 		end
 
 		switch $_flag_lang
-			case python; _create_python $name
-			case go; _create_go $name
-			case rust; _create_rust $name
+			case python; _create_python $name $flags
+			case go; _create_go $name $flags
+			case rust; _create_rust $name $flags
 		end
 
 		if test $status -ne 0
@@ -165,7 +169,7 @@ begin
 
 		echo "# $name" > README.md
 
-		if not contains -- --no-git $argv
+		if not contains -- --no-git $argv; and test -d .git
 			git add --all
 		end
 	end
