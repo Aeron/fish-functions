@@ -25,13 +25,14 @@ begin
 		echo '__version__ = "0.0.0"' > $package/__init__.py
 
 		mkdir tests
+		touch tests/__init__.py
 
 		if not contains -- --no-venv $argv
 			if functions -q venv
 				venv
 			else
 				command python3 -m venv .venv
-				source ./bin/activate.fish
+				source .venv/bin/activate.fish
 				pip install -U pip setuptools wheel
 			end
 		end
