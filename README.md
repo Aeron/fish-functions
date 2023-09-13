@@ -67,6 +67,12 @@ Displays current timestamp hash (hexadecimal representation).
 
 Usage: `date-hash`
 
+### > date-iso
+
+Displays the current date in ISO8601 (without milliseconds).
+
+Usage: `date-iso`
+
 ### > docker-reset
 
 Stops all containers, removes them and all images.
