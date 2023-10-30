@@ -19,7 +19,7 @@ function rtx-up -d 'Updates rtx packages'
     rtx install
 
     if contains -- --prune $argv
-        rtx prune
+        rtx prune --yes
     end
 
     rtx reshim
