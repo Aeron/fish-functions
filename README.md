@@ -5,6 +5,10 @@ A repo with my [Fish](http://fishshell.com) shell functions.
 Some are very usable, yet some are just gimmicks and tinkering (e.g., `cal` and
 `notify`), and some are simply outdated and irrelevant (e.g., `vpn` and `smtp`).
 
+> [!WARNING]
+> Most of the functions here written for macOS as a platform. Yet some of them
+> are entirely POSIX-compatible. Please check before use.
+
 ## Fish theme
 
 `fish_prompt.fish` is a theme I currently use. Inspired by
@@ -13,7 +17,8 @@ Some are very usable, yet some are just gimmicks and tinkering (e.g., `cal` and
 
 ![Terminal with Fish](https://user-images.githubusercontent.com/278423/27943158-783e5b80-62e5-11e7-863b-053dd9d897ab.png)
 
-**Note**: Not using it much these days because of [Starship](https://starship.rs).
+> [!NOTE]
+> Not using it much these days because of [Starship](https://starship.rs).
 
 ## Functions
 
