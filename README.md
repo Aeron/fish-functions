@@ -73,6 +73,25 @@ Displays the current date in ISO8601 (without milliseconds).
 
 Usage: `date-iso`
 
+### > dns
+
+Adds or removes common DNS servers (Quad9 and Cloudflare) to or from a network.
+Or cleans all of network DNS servers.
+
+```
+Usage:
+    dns CMD [NAME]
+
+Commands:
+    add          Adds common DNS servers to a network
+    rm/remove    Removes common DNS servers from a network
+    clean        Cleans all DNS servers of a network
+
+Parameters:
+    CMD          A command to perform [required]
+    NAME         A network name [default: "Wi-Fi"]
+```
+
 ### > docker-reset
 
 Stops all containers, removes them and all images.
