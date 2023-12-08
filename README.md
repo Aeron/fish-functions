@@ -60,6 +60,25 @@ normal.
 
 Usage: `cal [<arguments>]`
 
+### > config
+
+Manages various utility configurations. For example: `fish`, `rtx`, `starship`.
+
+```
+Usage:
+    config UTILITY
+
+Utilities:
+    bottom      Opens the bottom config in the $EDITOR
+    fish        Opens the Fish config in the $EDITOR
+    lsd         Opens the lsd config in the $EDITOR
+    rtx         Opens the rtx config in the $EDITOR
+    starship    Opens the Starship config in the $EDITOR
+
+Parameters:
+    UTILITY      An utility name [required]
+```
+
 ### > curl-time
 
 Measures time for a performed CURL request.
@@ -102,13 +121,6 @@ Parameters:
 Stops all containers, removes them and all images.
 
 Usage: `docker-reset`
-
-### > fish-config
-
-Provides a short way to reload/edit a config file or its home/functions folder, or edit
-a prompt function.
-
-Usage: `fish-config [edit | reload | prompt | home | functions]`
 
 ### > flushdns
 
@@ -268,12 +280,6 @@ Usage: `source-posix <file.env> [-v]`
 Calculates the subresource integrity hash for a given file.
 
 Usage: `sri-hash <resource-file>`
-
-### > startship-config
-
-Handy alias to manage a Starship config.
-
-Usage: `starship-config`
 
 ### > tztime
 
