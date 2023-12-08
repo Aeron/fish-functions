@@ -85,6 +85,28 @@ Measures time for a performed CURL request.
 
 Usage: `curl-time <url>`
 
+### > database
+
+Manages databases as containers (via Docker).
+
+```
+Usage:
+    database COMMAND DATABASE
+
+Commands:
+    up/start     Starts a new database container
+    down/stop    Stops an existing database container
+    rm/remove    Removes an existing database container
+
+Databases:
+    mongo        Specifies MongoDB as a database
+    postgres     Specifies Postgres as a database
+
+Parameters:
+    COMMAND      A command name [required]
+    DATABASE     A database name [required]
+```
+
 ### > date-hash
 
 Displays current timestamp hash (hexadecimal representation).
