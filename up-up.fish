@@ -1,23 +1,53 @@
-function up-up -d 'Updates macOS software, Homebrew, asdf, and local Python packages'
-    if contains -- --all $argv
-        echo -s (set_color green) "🚀 Updating macOS software" (set_color normal)
-        soft-up
-    else
-        echo -s (set_color cyan) "🔍 Checking macOS software" (set_color normal)
-        soft-up --check-only
+begin
+    set R '🚀'
+    set G '🔍'
+
+    function title_underscore -a message
+        echo -n (string repeat -n (string length --visible $message) '─')
     end
 
-    echo -se (set_color green) "🚀 Updating Homebrew packages" (set_color normal)
-    brew-up
-
-    if contains -- --all $argv
-        echo -se (set_color green) "🚀 Updating rtx packages" (set_color normal)
-        rtx-up
-    else
-        echo -se (set_color cyan) "🔍 Checking rtx packages" (set_color normal)
-        rtx-up --check-only
+    function section_title_update -a section
+        set message "$R Updating $section"
+        echo -se \
+            (set_color $fish_color_cwd) \
+            "$message\n" \
+            (title_underscore $message) \
+            (set_color normal)
     end
 
-    echo -se (set_color green) "🚀 Updating Python packages" (set_color normal)
-    pip-up
+    function section_title_check -a section
+        set message "$G Checking $section"
+        echo -se \
+            (set_color $fish_color_escape) \
+            "$message\n" \
+            (title_underscore $message) \
+            (set_color normal)
+    end
+
+    function up-up -d 'Updates macOS software, Homebrew, rtx, and Python packages'
+        if contains -- --all $argv
+            section_title_update 'macOS software'
+            soft-up
+        else
+            section_title_check 'macOS software'
+            soft-up --check-only
+        end
+
+        echo -ne "\n"
+        section_title_update 'Homebrew packages'
+        brew-up
+        echo -ne "\n"
+
+        if contains -- --all $argv
+            section_title_update 'rtx packages'
+            rtx-up
+        else
+            section_title_check 'rtx packages'
+            rtx-up --check-only
+        end
+
+        echo -ne "\n"
+        section_title_update 'Python packages'
+        pip-up
+    end
 end
