@@ -22,7 +22,7 @@ begin
 		touch pyproject.toml requirements.txt
 
 		mkdir -p $package
-		echo '__version__ = "0.0.0"' > $package/__init__.py
+		echo -e '__version__ = "0.0.0"\n' > $package/__init__.py
 
 		mkdir tests
 		touch tests/__init__.py
@@ -38,25 +38,8 @@ begin
 		end
 
 		if not contains -- --no-git $argv
-			curl -Lso .gitignore $python_gitignore
-			git init -q .
+			_init_git $python_gitignore
 		end
-	end
-
-	function _create_rust -a name
-		set opts "--name $name"
-
-		if contains -- --lib $argv
-			set -a opts '--lib'
-		else
-			set -a opts '--bin'
-		end
-
-		if contains -- --no-git $argv
-			set -a opts '--vcs none'
-		end
-
-		command cargo init $args .
 	end
 
 	function _create_go -a name
@@ -73,9 +56,29 @@ begin
 		echo "package main" > $package/main.go
 
 		if not contains -- --no-git $argv
-			curl -Lso .gitignore $go_gitignore
-			git init -q .
+			_init_git $go_gitignore
 		end
+	end
+
+	function _create_rust -a name
+		set opts "--name $name"
+
+		if contains -- --lib $argv
+			set -a opts '--lib'
+		else
+			set -a opts '--bin'
+		end
+
+		if contains -- --no-git $argv
+			set -a opts '--vcs none'
+		end
+
+		command cargo init $opts .
+	end
+
+	function _init_git -a gitignore_url
+		curl -Lso .gitignore $gitignore_url
+		git init -q .
 	end
 
     function _get_help
