@@ -1,3 +1,4 @@
 function pip-reset -d 'Removes local Python packages, except for a few vital ones'
-    pip uninstall -y (pip freeze | grep --invert-match "pip|setuptools|wheel")
+    # pip itself is never included in freeze results
+    pip uninstall -y (pip freeze | grep --invert-match "setuptools|wheel")
 end
