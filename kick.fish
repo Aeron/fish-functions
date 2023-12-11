@@ -6,6 +6,8 @@ begin
     set zig_gitignore 'https://github.com/ziglang/zig/raw/master/.gitignore'
 
     function _create_python -a name
+        set package 'app'
+
         if contains -- --lib $argv
             set package (string trim (string replace '-' '_' "$name"))
 
@@ -18,8 +20,6 @@ begin
             end
 
             set package "src/$package"
-        else
-            set package 'app'
         end
 
         touch pyproject.toml requirements.txt
@@ -49,10 +49,10 @@ begin
 
     function _create_go -a name
         # https://github.com/golang-standards/project-layout
+        set package 'internal'
+
         if contains -- --lib $argv
-            set package pkg
-        else
-            set package internal
+            set package 'pkg'
         end
 
         go mod init $name
