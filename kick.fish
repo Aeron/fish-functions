@@ -1,7 +1,9 @@
 begin
-	set languages python go rust
+	set languages python go rust zig
+
 	set python_gitignore 'https://github.com/github/gitignore/raw/main/Python.gitignore'
 	set go_gitignore 'https://github.com/github/gitignore/raw/main/Go.gitignore'
+	set zig_gitignore 'https://github.com/ziglang/zig/raw/master/.gitignore'
 
 	function _create_python -a name
 		if contains -- --lib $argv
@@ -79,6 +81,28 @@ begin
 		command cargo init $opts .
 	end
 
+	function _create_zig -a name
+		set cmd 'init-exe'
+
+		if contains -- --lib $argv
+			set cmd 'init-lib'
+		else
+
+		echo -se \
+			'.{\n' \
+			"    .name = \"$name\",\n" \
+			'    .version = "0.0.0",\n' \
+			'    .dependencies = .{},\n' \
+			'}\n' \
+		> build.zig.zon
+
+		if not contains -- --no-git $argv
+			_init_git $zig_gitignore
+		end
+
+		command zig $cmd
+	end
+
 	function _init_git -a gitignore_url
 		curl -Lso .gitignore $gitignore_url
 		git init -q .
@@ -92,6 +116,7 @@ begin
         echo '    --lang=python    Creates a Python project [default]'
         echo '    --lang=go        Creates a Go project'
         echo '    --lang=rust      Creates a Rust project'
+        echo '    --lang=zig       Creates a Zig project'
         echo ''
         echo '    --lib            Specifies the project is a library'
         echo ''
@@ -150,7 +175,7 @@ begin
 			return 1
 		end
 
-		set target (path resolve "$target")
+		set target (path resolve "$target") # TODO: error handling maybe?
 
 		if test (ls -1A "$target" 2> /dev/null | wc -l | string trim) -gt 0
 			read -lun1 -P 'directory is not empty; continue anyway? [y|N] ' answer
@@ -171,6 +196,8 @@ begin
 				_create_go $name $flags
 			case rust
 				_create_rust $name $flags
+			case zig
+				_create_zig $name $flags
 		end
 
 		if test $status -ne 0
