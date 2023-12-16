@@ -1,15 +1,25 @@
 function smtp -a port -d 'Runs a fake (Python) SMTP server'
-	set host 127.0.0.1
+	set pyver (string split '.' (string split ' ' (command python --version))[2])
 
-	if [ -z $port ]
-		set port 25
+	if test $pyver[1] -ge 3 -a $pyver[2] -ge 12
+		echo -s \
+			(set_color $fish_color_error) \
+			"error: Python dropped support for smtpd module since 3.12" \
+			(set_color normal)
+		return 1
 	end
 
-	echo -n (set_color yellow) "Starting fake SMTP on $host:$port" (set_color normal)
+	set host 127.0.0.1
 
-	set cmd "python -m smtpd -n -c DebuggingServer $host:$port"
+	if test -z "$port"
+		set port 8025
+	end
 
-	if test $port -le 1024  # only root should bind below 1024th port
+	echo -n "Starting fake SMTP on $host:$port"
+
+	set cmd "command python -m smtpd -n -c DebuggingServer $host:$port"
+
+	if test $port -lt 1024  # only root should bind below 1024th port
 		set cmd 'sudo' $cmd
 	end
 
