@@ -1,6 +1,9 @@
 function cal -d 'Handy cal wrapper'
-	if [ -z "$argv" ]
-		command cal | grep --before-context 6 --after-context 6 --color -e '\ '(date +%e)'\ '
+	if test -z "$argv"
+		command cal | grep \
+			--before-context 6 \
+			--after-context 6 \
+			--color -e '\ '(date +%e)'\ '
 	else
 		command cal $argv
 	end
