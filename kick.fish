@@ -31,7 +31,7 @@ begin
         touch tests/__init__.py
 
         if not contains -- --no-venv $argv
-            if functions -q rtx-venv
+            if functions -q mise-venv
                 mise-venv
             else if functions -q venv
                 venv
