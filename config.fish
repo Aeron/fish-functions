@@ -8,8 +8,8 @@ function config -a utility -d 'Manages various utility configurations'
             eval $EDITOR_DIR ~/.config/fish
         case 'lsd'
             eval $EDITOR_DIR ~/.config/lsd
-        case 'rtx'
-            eval $EDITOR ~/.config/rtx/config.toml
+        case 'rtx' 'mise'
+            eval $EDITOR ~/.config/mise/config.toml
         case 'starship'
             eval $EDITOR ~/.config/starship.toml
         case '*'
@@ -22,7 +22,7 @@ function config -a utility -d 'Manages various utility configurations'
             echo '    bottom      Opens the bottom config in the $EDITOR'
             echo '    fish        Opens the Fish config in the $EDITOR'
             echo '    lsd         Opens the lsd config in the $EDITOR'
-            echo '    rtx         Opens the rtx config in the $EDITOR'
+            echo '    rtx/mise    Opens the mise-en-place (former rtx) config in the $EDITOR'
             echo '    starship    Opens the Starship config in the $EDITOR'
             echo ''
             echo 'Parameters:'
