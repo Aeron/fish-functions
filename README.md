@@ -62,7 +62,7 @@ Usage: `cal [<arguments>]`
 
 ### > config
 
-Manages various utility configurations. For example: `fish`, `rtx`, `starship`.
+Manages various utility configurations. For example: `fish`, `mise`, `starship`.
 
 ```
 Usage:
@@ -72,7 +72,7 @@ Utilities:
     bottom      Opens the bottom config in the $EDITOR
     fish        Opens the Fish config in the $EDITOR
     lsd         Opens the lsd config in the $EDITOR
-    rtx         Opens the rtx config in the $EDITOR
+    rtx/mise    Opens the mise-en-place (former rtx) config in the $EDITOR
     starship    Opens the Starship config in the $EDITOR
 
 Parameters:
@@ -203,11 +203,29 @@ Displays or sets current Kube context.
 
 Usage: `kube-ctx [<context>]`
 
-### > launchlap-reset
+### > launchpad-reset
 
 Resets macOS Launchpad layout.
 
 Usage: `launchpad-reset`
+
+### > mise-check
+
+Checks for mise-en-place (former rtx) plugin newer versions.
+
+Usage: `mise-check [--verbose]`
+
+### > mise-up
+
+Updates mise-en-place (former rtx) packages (and reshims them).
+
+Usage: `mise-up [--check-only]`
+
+### > mise-venv
+
+Configures a local mise-en-place (former rtx) Python with a virtual environment.
+
+Usage: `mise-venv`
 
 ### > notify
 
@@ -260,18 +278,6 @@ Usage: `rgsk [RG_QUERY [SK_QUERY]]`
 
 [ripgrep]: https://github.com/BurntSushi/ripgrep
 [skim]: https://github.com/lotabout/skim
-
-### > rtx-check
-
-Checks for rtx plugin newer versions.
-
-Usage: `rtx-check [--verbose]`
-
-### > rtx-up
-
-Updates rtx packages (and reshims them).
-
-Usage: `rtx-up [--check-only]`
 
 ### > semver
 
