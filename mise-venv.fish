@@ -1,5 +1,5 @@
 function mise-venv \
-    -d "Configures a local mise-en-place (former rtx) Python with a virtual environment"
+    -d 'Configures a local mise-en-place (former rtx) Python with a virtual environment'
 
     if test -e .rtx.toml
         echo -s \
