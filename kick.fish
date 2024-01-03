@@ -32,7 +32,7 @@ begin
 
         if not contains -- --no-venv $argv
             if functions -q rtx-venv
-                rtx-venv
+                mise-venv
             else if functions -q venv
                 venv
             else

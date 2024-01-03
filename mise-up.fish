@@ -1,6 +1,6 @@
 function mise-up -d 'Updates mise-en-place (former rtx) packages'
-    if contains -- --check-only $argv; and functions -q rtx-check
-        rtx-check
+    if contains -- --check-only $argv; and functions -q mise-check
+        mise-check
         return
     end
 

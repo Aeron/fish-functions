@@ -24,7 +24,9 @@ begin
             (set_color normal)
     end
 
-    function up-up -d 'Updates macOS software, Homebrew, rtx, and Python packages'
+    function up-up \
+        -d 'Updates macOS software, Homebrew, mise-en-place, and Python packages'
+
         if contains -- --all $argv
             section_title_update 'macOS software'
             soft-up
@@ -39,11 +41,11 @@ begin
         echo -ne "\n"
 
         if contains -- --all $argv
-            section_title_update 'rtx packages'
-            rtx-up
+            section_title_update 'mise-en-place packages'
+            mise-up
         else
-            section_title_check 'rtx packages'
-            rtx-up --check-only
+            section_title_check 'mise-en-place packages'
+            mise-up --check-only
         end
 
         echo -ne "\n"
