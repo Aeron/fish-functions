@@ -1,4 +1,6 @@
-function rtx-venv -d "Configures a local RTX Python with a virtual environment"
+function mise-venv \
+    -d "Configures a local mise-en-place (former rtx) Python with a virtual environment"
+
     if test -e .rtx.toml
         echo -s \
             (set_color $fish_color_error) \

@@ -1,4 +1,4 @@
-function rtx-up -d 'Updates rtx packages'
+function mise-up -d 'Updates mise-en-place (former rtx) packages'
     if contains -- --check-only $argv; and functions -q rtx-check
         rtx-check
         return
@@ -7,21 +7,23 @@ function rtx-up -d 'Updates rtx packages'
     if set -q $RTX_GLOBAL_LATEST
         if test -f ~/.tool-versions
             for plugin in $RTX_GLOBAL_LATEST
-                rtx global $plugin@latest
+                mise global $plugin@latest
             end
         else
             for plugin in $RTX_GLOBAL_LATEST
-                rtx use --global $plugin@latest
+                mise use --global $plugin@latest
             end
         end
     end
 
-    rtx install
+    # mise install
 
-    if contains -- --prune $argv
-        rtx prune --yes
-    end
+    # if contains -- --prune $argv
+    #     mise prune --yes
+    # end
 
-    rtx reshim
-    and rtx list
+    mise upgrade
+
+    mise reshim
+    and mise list
 end

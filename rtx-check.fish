@@ -11,11 +11,11 @@ begin
         end
     end
 
-    function rtx-check -d "Checks for rtx plugin newer versions"
+    function mise-check -d "Checks for mise-en-place (former rtx) plugin newer versions"
         set verbose (contains -- --verbose $argv; or contains -- -v $argv; and echo 1)
         set number 0
 
-        for current in (rtx outdated | tail -n +2)
+        for current in (mise outdated | tail -n +2)
             set current (string split -n -f1,3,4 " " $current)
             set current_plugin $current[1]
             set current_version $current[2]
