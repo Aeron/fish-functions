@@ -1,5 +1,5 @@
 function config -a utility -d 'Manages various utility configurations'
-    set EDITOR_DIR (string replace -r '\-?w' '' $EDITOR)
+    set EDITOR_DIR (string replace -r '\-?w' '' "$EDITOR")
 
     switch "$utility"
         case 'bottom'
@@ -9,7 +9,7 @@ function config -a utility -d 'Manages various utility configurations'
         case 'lsd'
             eval $EDITOR_DIR ~/.config/lsd
         case 'rtx' 'mise'
-            eval $EDITOR ~/.config/mise/config.toml
+            eval $EDITOR_DIR ~/.config/mise
         case 'starship'
             eval $EDITOR ~/.config/starship.toml
         case '*'
