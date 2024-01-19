@@ -86,7 +86,7 @@ begin
 
         if contains -- --lib $argv
             set cmd 'init-lib'
-        else
+        end
 
         echo -se \
             '.{\n' \
