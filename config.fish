@@ -2,8 +2,8 @@ function config -a utility -d 'Manages various utility configurations'
     set EDITOR_DIR (string replace -r '\-?w' '' "$EDITOR")
 
     switch "$utility"
-        case 'bottom'
-            eval $EDITOR '~/Library/Application Support/bottom/bottom.toml'
+        case 'bottom' 'btm'
+            eval $EDITOR ~/.config/bottom/bottom.toml
         case 'fish'
             eval $EDITOR_DIR ~/.config/fish
         case 'lsd'
