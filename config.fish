@@ -13,19 +13,19 @@ function config -a utility -d 'Manages various utility configurations'
         case 'starship'
             eval $EDITOR ~/.config/starship.toml
         case '*'
-            echo "$_ manage various utility configurations."
+            echo 'Manage various utility configurations.'
             echo ''
             echo 'Usage:'
             echo "    $_ UTILITY"
             echo ''
             echo 'Utilities:'
-            echo '    bottom      Opens the bottom config in the $EDITOR'
-            echo '    fish        Opens the Fish config in the $EDITOR'
-            echo '    lsd         Opens the lsd config in the $EDITOR'
-            echo '    rtx/mise    Opens the mise-en-place (former rtx) config in the $EDITOR'
-            echo '    starship    Opens the Starship config in the $EDITOR'
+            echo '    bottom/btm    Opens the bottom config in the $EDITOR'
+            echo '    fish          Opens the Fish config in the $EDITOR'
+            echo '    lsd           Opens the lsd config in the $EDITOR'
+            echo '    rtx/mise      Opens the mise-en-place (former rtx) config in the $EDITOR'
+            echo '    starship      Opens the Starship config in the $EDITOR'
             echo ''
             echo 'Parameters:'
-            echo '    UTILITY      An utility name [required]'
+            echo '    UTILITY        An utility name [required]'
     end
 end
