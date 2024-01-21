@@ -108,16 +108,16 @@ begin
         git init -q .
     end
 
-    function kick -d "Kickstarts a new software development project"
-        set -l options
-        set options $options (fish_opt -s h -l help)
-        set options $options (fish_opt -s l -l lang --optional-val)
-        set options $options (fish_opt -s L -l lib --long-only)
-        set options $options (fish_opt -s n -l name --optional-val)
-        set options $options (fish_opt -s G -l no-git --long-only)
-        set options $options (fish_opt -s V -l no-venv --long-only)
+    function kick -d 'Kickstarts a new software development project'
+        set -l opts (fish_opt -s h -l help)
+        set -a opts (fish_opt -s l -l lang --optional-val)
+        set -a opts (fish_opt -s L -l lib --long-only)
+        set -a opts (fish_opt -s n -l name --optional-val)
+        set -a opts (fish_opt -s G -l no-git --long-only)
+        set -a opts (fish_opt -s V -l no-venv --long-only)
 
-        argparse --ignore-unknown $options -- $argv
+        argparse --ignore-unknown $opts -- $argv
+        or return
 
         if test $_flag_help
             echo 'Kickstart a new software development project.'
@@ -162,10 +162,8 @@ begin
             set _flag_name 'thingy'
         end
 
-        # HACK: `function -a <args>` does not quite work here
-        # since all options goes to named params first
-        set params (string match --invert -- '-*' $argv)
-        set target (path resolve "$params[1]") # TODO: error handling maybe?
+        # NOTE: after argparse use, the $argv contains only parameters
+        set target (path resolve "$argv[1]") # TODO: error handling maybe?
 
         if test (ls -1A "$target" 2> /dev/null | wc -l | string trim) -gt 0
             read -lun1 -P 'directory is not empty; continue anyway? [y|N] ' answer
