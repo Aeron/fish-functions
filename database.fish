@@ -19,6 +19,14 @@ begin
         -e POSTGRESQL_REPLICATION_MODE=master \
         bitnami/postgresql:16
 
+    set redis 'redis'
+    set redis_opts \
+        -v $HOME/.local/var/redis:/bitnami/redis/data:rw \
+        -p 127.0.0.1:6379:6379/tcp \
+        -e ALLOW_EMPTY_PASSWORD=yes \
+        -e REDIS_REPLICATION_MODE=master \
+        bitnami/redis:7.2
+
     function up -a name
         if test ! (docker ps -aq --filter name=$name)
             docker run --detach --restart=unless-stopped --name=$name $argv[2..]
@@ -102,14 +110,20 @@ begin
                 up $mongo $mongo_opts
             case 'up postgres' 'start postgres'
                 up $postgres $postgres_opts
+            case 'up redis' 'start redis'
+                up $redis $redis_opts
             case 'down mongo' 'stop mongo'
                 down $mongo
             case 'down postgres' 'stop postgres'
                 down $postgres
+            case 'down redis' 'stop redis'
+                down $redis
             case 'rm mongo' 'remove mongo'
                 remove $mongo
             case 'rm postgres' 'remove postgres'
                 remove $postgres
+            case 'rm redis' 'remove redis'
+                remove $redis
             case 'dump mongo'
                 mongo_dump $argv[3..]
             case 'restore mongo'
@@ -132,6 +146,7 @@ begin
                 echo 'Databases:'
                 echo '    mongo            Specifies MongoDB as a database'
                 echo '    postgres         Specifies Postgres as a database'
+                echo '    redis            Specifies Redis as a database'
                 echo ''
                 echo 'Mongo Dump/Restore Options:'
                 echo '    --path=<PATH>    Specifies a directory path or name'
