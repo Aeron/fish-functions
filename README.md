@@ -128,7 +128,7 @@ Usage: `date-hash`
 
 Displays the current date in ISO8601 (without milliseconds).
 
-Usage: `date-iso`
+Usage: `date-iso [--short]`
 
 ### > dns
 
