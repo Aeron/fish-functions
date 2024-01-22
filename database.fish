@@ -1,12 +1,14 @@
 begin
     set mongo 'mongo'
     set mongo_opts \
-        -v $HOME/.local/var/mongodb:/bitnami/mongodb/data/db:rw \
+        -v $HOME/.local/var/mongo:/bitnami/mongodb/data/db:rw \
         -p 127.0.0.1:27017:27017/tcp \
         -e ALLOW_EMPTY_PASSWORD=yes \
         -e MONGODB_DISABLE_SYSTEM_LOG=true \
         -e MONGODB_ENABLE_DIRECTORY_PER_DB=true \
-        -e MONGODB_REPLICA_SET_MODE=primary \
+        # NOTE: looks like the "Failed to refresh key cache" error is still a thing
+        # (see https://www.mongodb.com/community/forums/t/single-node-replicaset-never-finishing-instanciating-error-cannot-use-non-local-read-concern-until-replica-set-is-finished-initializing/164815)
+        # -e MONGODB_REPLICA_SET_MODE=primary \
         ghcr.io/zcube/bitnami-compat/mongodb:6.0
 
     set postgres 'postgres'
