@@ -91,20 +91,31 @@ Manages databases as containers (via Docker).
 
 ```
 Usage:
-    database COMMAND DATABASE
+    database COMMAND DATABASE [OPTS...]
 
 Commands:
-    up/start     Starts a new database container
-    down/stop    Stops an existing database container
-    rm/remove    Removes an existing database container
+    up/start         Starts a new database container
+    down/stop        Stops an existing database container
+    rm/remove        Removes an existing database container
+
+Mongo Commands:
+    dump             Exports the content of a running server
+    restore          Restores backups to a running server
 
 Databases:
-    mongo        Specifies MongoDB as a database
-    postgres     Specifies Postgres as a database
+    mongo            Specifies MongoDB as a database
+    postgres         Specifies Postgres as a database
+    redis            Specifies Redis as a database
+
+Mongo Dump/Restore Options:
+    --path=<PATH>    Specifies a directory path or name
+                     [default: "mongo-dump-<DATE>" and "."]
+    --db=<NAME>      Specifies a database name
+    --coll=<NAME>    Specifies a collection name
 
 Parameters:
-    COMMAND      A command name [required]
-    DATABASE     A database name [required]
+    COMMAND          A command name [required]
+    DATABASE         A database name [required]
 ```
 
 ### > date-hash
