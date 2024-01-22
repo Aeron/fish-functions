@@ -53,7 +53,7 @@ begin
             set _flag_path "mongo-dump-$(date +%Y-%m-%d)"
         end
 
-        set cmd_opts "--gzip --out=$_flag_path"
+        set cmd_opts '--gzip' "--out=$_flag_path"
 
         if test -n "$_flag_db"
             set -a cmd_opts "--db=$_flag_db"
@@ -63,7 +63,7 @@ begin
             set -a cmd_opts "--collection=$_flag_coll"
         end
 
-        mongodump $cmd_opts
+        command mongodump $cmd_opts
     end
 
     function mongo_restore
@@ -87,7 +87,7 @@ begin
             set -a cmd_opts "--collection=$_flag_coll"
         end
 
-        mongorestore $cmd_opts "$_flag_path"
+        command mongorestore $cmd_opts "$_flag_path"
     end
 
     function database -d 'Manages databases as containers (via Docker)'
@@ -131,10 +131,10 @@ begin
                 echo '    postgres         Specifies Postgres as a database'
                 echo ''
                 echo 'Mongo Dump/Restore Options:'
-                echo '    --path=<PATH>    Specifies a directory to use'
+                echo '    --path=<PATH>    Specifies a directory path or name'
                 echo '                     [default: "mongo-dump-<DATE>" and "."]'
-                echo '    --db=<NAME>      Specifies a database to use'
-                echo '    --coll=<NAME>    Specifies a collection to use'
+                echo '    --db=<NAME>      Specifies a database name'
+                echo '    --coll=<NAME>    Specifies a collection name'
                 echo ''
                 echo 'Parameters:'
                 echo '    COMMAND          A command name [required]'
