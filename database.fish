@@ -13,10 +13,11 @@ begin
 
     set postgres 'postgres'
     set postgres_opts \
-        -v $HOME/.local/var/postgres:/var/lib/postgresql/data:rw \
+        -v $HOME/.local/var/postgres:/bitnami/postgresql/data:rw \
         -p 127.0.0.1:5432:5432/tcp \
-        -e POSTGRES_HOST_AUTH_METHOD=trust \
-        postgres:14-alpine
+        -e ALLOW_EMPTY_PASSWORD=yes \
+        -e POSTGRESQL_REPLICATION_MODE=master \
+        bitnami/postgresql:16
 
     function up -a name
         if test ! (docker ps -aq --filter name=$name)
