@@ -349,7 +349,7 @@ Usage: `unlock <path> [--sign]`
 
 Updates macOS software, Homebrew, asdf, and local Python packages.
 
-An alias for `soft-up`, `brew-up`, `asdf-up`, and `pip-up`.
+An alias for `soft-up`, `brew-up`, `mise-up`, and `pip-up`.
 
 Usage: `up-up [--all]`
 
