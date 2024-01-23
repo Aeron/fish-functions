@@ -58,7 +58,7 @@ Usage: `brew-up`
 Handy wrapper to colorize current date in `cal`. Arguments usage will reset layout to
 normal.
 
-Usage: `cal [<arguments>]`
+Usage: `cal [ARGS...]`
 
 ### > config
 
@@ -83,7 +83,7 @@ Parameters:
 
 Measures time for a performed CURL request.
 
-Usage: `curl-time <url>`
+Usage: `curl-time URL`
 
 ### > database
 
@@ -195,7 +195,7 @@ Usage: `get-my-ip`
 
 Easier way to add a subnetwork in `/etc/ppp/ip-up`. Usable for a selective VPN traffic.
 
-Usage: `ip-up-add <subnetwork> [<comment>]`
+Usage: `ip-up-add SUBNET [COMMENT]`
 
 ### > kick
 
@@ -224,7 +224,7 @@ Parameters:
 
 Displays or sets current Kube context.
 
-Usage: `kube-ctx [<context>]`
+Usage: `kube-ctx [CTX]`
 
 ### > launchpad-reset
 
@@ -254,25 +254,25 @@ Usage: `mise-venv`
 
 Displays a macOS notification.
 
-Usage: `notify <message> [<title> [<subtitle>]]`
+Usage: `notify MESSAGE [TITLE [SUBTITLE]]`
 
 ### > pbcopy-gpg
 
 Copies a GPG public key.
 
-Usage: `pbcopy-gpg [<fingerprint>]`
+Usage: `pbcopy-gpg [FINGERPRINT]`
 
 ### > pbcopy-ssh
 
-Copies an SSH public key.
+Copies an SSH public key (that starts with `id_`).
 
-Usage: `pbcopy-ssh [<type>]`
+Usage: `pbcopy-ssh [TYPE]`
 
 ### > ping
 
 A wrapper around the `ping` with a default address (1.1.1.1).
 
-Usage: `ping [<arguments>]`
+Usage: `ping [ARGS...]`
 
 ### > pip-reset
 
@@ -312,7 +312,7 @@ Usage: `semver [-lv]`
 
 Runs a local Python SMTP ``DebuggingServer``.
 
-Usage: `smtp [<port>]`
+Usage: `smtp [PORT]`
 
 ### > soft-up
 
@@ -324,26 +324,26 @@ Usage: `soft-up [--check-only]`
 
 Exports variables from a POSIX-compatible environment file.
 
-Usage: `source-posix <file.env> [-v]`
+Usage: `source-posix FILE [-v]`
 
 ### > sri-hash
 
 Calculates the subresource integrity hash for a given file.
 
-Usage: `sri-hash <resource-file>`
+Usage: `sri-hash FILE`
 
 ### > tztime
 
 Displays current time in given timezones, e.g. `US/Pacific`, `UTC`, `Asia/Bangkok` and
 etc. See `/usr/share/zoneinfo/` for more.
 
-Usage: `tztime <timezones>`
+Usage: `tztime TIMEZONE`
 
 ### > unlock
 
 Disables macOS Gatekeeper for a specified application.
 
-Usage: `unlock <path> [--sign]`
+Usage: `unlock PATH [--sign]`
 
 ### > up-up
 
@@ -357,11 +357,11 @@ Usage: `up-up [--all]`
 
 Simple wrapper for Python’s `venv` module.
 
-Usage: `venv [<arguments>] [--reset] [--rm]`
+Usage: `venv [--reset] [--rm]`
 
 ### > vpn
 
 Faster way to handle existing PPTP/L2TP connections in macOS. _Not so usable for L2TP_,
 because of a shared key.
 
-Usage: `vpn [list | start <connection> | stop <connection> | switch <connection>]`
+Usage: `vpn [list | start CONN | stop CONN | switch CONN]`
