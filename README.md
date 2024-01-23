@@ -64,7 +64,7 @@ Usage: `cal [<arguments>]`
 
 Manages various utility configurations. For example: `fish`, `mise`, `starship`.
 
-```
+```text
 Usage:
     config UTILITY
 
@@ -89,7 +89,7 @@ Usage: `curl-time <url>`
 
 Manages databases as containers (via Docker).
 
-```
+```text
 Usage:
     database COMMAND DATABASE [OPTS...]
 
@@ -135,7 +135,7 @@ Usage: `date-iso [--short]`
 Adds or removes common DNS servers (Quad9 and Cloudflare) to or from a network.
 Or cleans all of network DNS servers.
 
-```
+```text
 Usage:
     dns CMD [NAME]
 
@@ -161,17 +161,29 @@ Flushes a macOS DNS cache.
 
 Usage: `flushdns`
 
-### > gen-openssl-cert
+### > gen
 
-Generates a simple OpenSSL X509 certificate.
+Generates either an X.509 cert, SSH key, or random base64 string.
 
-Usage: `gen-openssl-cert [<cn>] [<days>]`
+```text
+Usage:
+    gen ENTITY [OPTS]
 
-### > gen-ssh-key
+Entities:
+    cert/x509          Generate an X.509 certificate
+    ssh/key            Generate an SSH key
+    base64/b64         Generate a random base64 string
 
-Generates an ed25519 SSH key.
+Options:
+    --bits=NUM         Base64 binary bit-length [optional]
+    --cn=NAME          Certificate common name [optional]
+    --days=NUM         Certificate validity period [optional]
+    --filename=NAME    SSH key filename [optional]
+    --comment=TEXT     SSH key comment [optional]
 
-Usage: `gen-ssh-key [<filename>] [<comment>]`
+Parameters:
+    ENTITY             An entity name [required]
+```
 
 ### > get-my-ip
 
@@ -189,7 +201,7 @@ Usage: `ip-up-add <subnetwork> [<comment>]`
 
 Kickstarts a new software development project.
 
-```
+```text
 Usage:
     kick [OPTS...] NAME [TARGET]
 
