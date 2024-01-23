@@ -331,7 +331,7 @@ Usage: `tztime <timezones>`
 
 Disables macOS Gatekeeper for a specified application.
 
-Usage: `unlock <path>`
+Usage: `unlock <path> [--sign]`
 
 ### > up-up
 
