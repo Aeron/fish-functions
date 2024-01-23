@@ -60,6 +60,12 @@ normal.
 
 Usage: `cal [ARGS...]`
 
+### > cip
+
+Displays the current IP addresses (using [ifconfig.co](https://ifconfig.co)).
+
+Usage: `cip`
+
 ### > config
 
 Manages various utility configurations. For example: `fish`, `mise`, `starship`.
@@ -184,12 +190,6 @@ Options:
 Parameters:
     ENTITY             An entity name [required]
 ```
-
-### > get-my-ip
-
-Displays the current IP addresses (using [ifconfig.co](https://ifconfig.co)).
-
-Usage: `get-my-ip`
 
 ### > ip-up-add
 
