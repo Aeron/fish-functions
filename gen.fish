@@ -58,7 +58,7 @@ begin
         openssl rand -base64 $bits
     end
 
-    function gen -d 'Generates either an X.509 cert, SSH key, random base64 string'
+    function gen -d 'Generates either an X.509 cert, SSH key, or random base64 string'
         set -l options
         set options $options (fish_opt -s B -l bits --optional-val)
         set options $options (fish_opt -s N -l cn --optional-val)
@@ -78,7 +78,7 @@ begin
             case 'base64' 'b64'
                 rand_base64 $_flag_bits
             case '*'
-                echo "$_ generate either an X.509 cert, SSH key, random base64 string."
+                echo "Generate either an X.509 cert, SSH key, or random base64 string."
                 echo ''
                 echo 'Usage:'
                 echo "    $_ ENTITY [OPTS]"
