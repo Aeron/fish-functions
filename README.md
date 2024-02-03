@@ -146,6 +146,7 @@ Usage:
     dns CMD [NAME]
 
 Commands:
+    list/ls      Lists current DNS servers of a network
     add          Adds common DNS servers to a network
     rm/remove    Removes common DNS servers from a network
     clean        Cleans all DNS servers of a network
