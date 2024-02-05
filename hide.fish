@@ -14,10 +14,10 @@ function hide -d 'Hides (or reveals) a given item (file, link, or directory) fro
         return 1
     end
 
+    set flag 'hidden'
     if test $_flag_rev
-        command chflags -fh nohidden "$path"
-        return 0
+        set flag 'nohidden'
     end
 
-    command chflags -fh hidden "$path"
+    command chflags -fh $flag "$path"
 end
