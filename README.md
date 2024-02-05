@@ -192,6 +192,12 @@ Parameters:
     ENTITY             An entity name [required]
 ```
 
+### > hide
+
+Hides (or reveals) a given item (file, link, or directory) from GUI.
+
+Usage: `hide [--rev] PATH`
+
 ### > ip-up-add
 
 Easier way to add a subnetwork in `/etc/ppp/ip-up`. Usable for a selective VPN traffic.
