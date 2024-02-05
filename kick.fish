@@ -66,7 +66,7 @@ begin
     end
 
     function _create_rust -a name
-        set opts "--name $name"
+        set opts "--name=$name"
 
         if contains -- --lib $argv
             set -a opts '--lib'
