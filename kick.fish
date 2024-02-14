@@ -19,6 +19,8 @@ begin
                 return 1
             end
 
+            # TODO: do we really believe in the src layout?
+            # Yes, Hynek, but also common sense.
             set package "src/$package"
         end
 
@@ -48,11 +50,15 @@ begin
     end
 
     function _create_go -a name
-        # https://github.com/golang-standards/project-layout
-        set package 'internal'
+        # Yeah, there is https://github.com/golang-standards/project-layout, but as
+        # Russ Cox (tech lead of the Go language project) explained in a relevant issue,
+        # there are no exact standards for a layout.
+        # See https://github.com/golang-standards/project-layout/issues/117#issuecomment-828503689.
+        # Also, https://go.googlesource.com/example/.
+        set package 'app'
 
         if contains -- --lib $argv
-            set package 'pkg'
+            set package (string trim (string replace '-' '_' "$name"))
         end
 
         go mod init $name
