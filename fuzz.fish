@@ -1,4 +1,4 @@
-function rgsk -d 'Interactive ripgrep+skim fuzzy finder'
+function fuzz -d 'Interactive fuzzy finder on top of ripgrep and skim'
     if not command -q rg; or not command -q sk
         echo "error: both ripgrep and skim must be installed"
         return 1

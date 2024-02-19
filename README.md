@@ -168,6 +168,15 @@ Flushes a macOS DNS cache.
 
 Usage: `flushdns`
 
+### > fuzz
+
+Interactive fuzzy finder on top of [`ripgrep`][ripgrep]+[`skim`][skim].
+
+Usage: `fuzz [RG_QUERY [SK_QUERY]]`
+
+[ripgrep]: https://github.com/BurntSushi/ripgrep
+[skim]: https://github.com/lotabout/skim
+
 ### > gen
 
 Generates either an X.509 cert, SSH key, or random base64 string.
@@ -301,15 +310,6 @@ Usage: `pip-up`
 Cleans directory Python cache and pre-compiled modules recursively.
 
 Usage: `pyclean`
-
-### > rgsk
-
-Interactive [`rg`][ripgrep]+[`sk`][skim] fuzzy finder.
-
-Usage: `rgsk [RG_QUERY [SK_QUERY]]`
-
-[ripgrep]: https://github.com/BurntSushi/ripgrep
-[skim]: https://github.com/lotabout/skim
 
 ### > semver
 
