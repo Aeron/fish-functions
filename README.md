@@ -210,21 +210,23 @@ Kickstarts a new software development project.
 
 ```text
 Usage:
-    kick [OPTS...] NAME [TARGET]
+    kick [OPTS...] [TARGET]
 
 Options:
-    --lang=python    Creates a Python project
+    --lang=python    Creates a Python project [default]
     --lang=go        Creates a Go project
     --lang=rust      Creates a Rust project
+    --lang=zig       Creates a Zig project
 
+    --name=<NAME>    Specifies the project name [default: "thingy"]
     --lib            Specifies the project is a library
-
     --no-git         Ignores Git VCS initialization
+
+Python Options:
     --no-venv        Ignores Python virtual environment creation
 
 Parameters:
-    NAME             A project name [required]
-    TARGET           A target directory [default: '.']
+    TARGET           A target directory [default: "."]
 ```
 
 ### > kube-ctx
