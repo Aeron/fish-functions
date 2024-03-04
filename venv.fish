@@ -17,7 +17,7 @@ begin
         else
             echo -s \
                 (set_color yellow) \
-                "No venv ($default_dir directory) found" \
+                "$default_dir not found" \
                 (set_color normal)
         end
     end
@@ -27,7 +27,9 @@ begin
 
         if functions -q activate
             activate -v
-            and pip install -U pip # setuptools wheel
+            and if command -q pip
+                pip install -U pip
+            end
         end
     end
 
@@ -35,7 +37,8 @@ begin
         if contains -- --rm $argv
             _remove_venv
         else if contains -- --reset $argv
-            _remove_venv; and _create_venv
+            _remove_venv
+            and _create_venv
         else
             _create_venv
         end

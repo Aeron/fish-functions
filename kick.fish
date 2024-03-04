@@ -39,8 +39,10 @@ begin
                 venv
             else
                 command python3 -m venv .venv
-                source .venv/bin/activate.fish
-                pip install -U pip setuptools wheel
+                and source .venv/bin/activate.fish
+                and if command -q pip
+                    pip install -U pip
+                end
             end
         end
 
