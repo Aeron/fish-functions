@@ -294,14 +294,17 @@ Usage: `ping [ARGS...]`
 
 ### > pip-reset
 
-Removes local Python packages, except for a few vital ones.
+Removes local Python packages, except the default ones.
+
+It supports both `pip` and [`uv`](https://github.com/astral-sh/uv).
 
 Usage: `pip-reset`
 
 ### > pip-up
 
-Updates local Python packages, like `pip`, `wheel` and `setuptools`, as well as
-everything listed in `~/.requirements.txt`.
+Updates local Python packages listed in the default packages file.
+
+It supports both `pip` and [`uv`](https://github.com/astral-sh/uv).
 
 Usage: `pip-up`
 
