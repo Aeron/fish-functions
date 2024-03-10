@@ -5,10 +5,12 @@ begin
     set go_gitignore 'https://github.com/github/gitignore/raw/main/Go.gitignore'
     set zig_gitignore 'https://github.com/ziglang/zig/raw/master/.gitignore'
 
+    set default_name 'unnamed'
+
     function _create_python -a name
         set package 'app'
 
-        if contains -- --lib $argv
+        if contains -- '--lib' $argv
             set package (string trim (string replace '-' '_' "$name"))
 
             if not string match -aq -r '^[a-z_]+$' "$package"
@@ -20,7 +22,9 @@ begin
             end
 
             # TODO: do we really believe in the src layout?
-            # Yes, Hynek, but also common sense.
+            # Yes, Hynek, but also common sense. One needs to (un)intentionally
+            # design a library the way it’d behave differently as an installed
+            # package. So, it’s either a very special choice or an error.
             set package "src/$package"
         end
 
@@ -32,7 +36,7 @@ begin
         mkdir tests
         touch tests/__init__.py
 
-        if not contains -- --no-venv $argv
+        if not contains -- '--no-venv' $argv
             if functions -q mise-venv
                 mise-venv
             else if functions -q venv
@@ -46,7 +50,9 @@ begin
             end
         end
 
-        if not contains -- --no-git $argv
+        echo "# $name" > README.md
+
+        if not contains -- '--no-git' $argv
             _init_git $python_gitignore
         end
     end
@@ -59,7 +65,7 @@ begin
         # Also, https://go.googlesource.com/example/.
         set package 'app'
 
-        if contains -- --lib $argv
+        if contains -- '--lib' $argv
             set package (string trim (string replace '-' '_' "$name"))
         end
 
@@ -68,7 +74,9 @@ begin
         mkdir -p $package
         echo "package main" > $package/main.go
 
-        if not contains -- --no-git $argv
+        echo "# $name" > README.md
+
+        if not contains -- '--no-git' $argv
             _init_git $go_gitignore
         end
     end
@@ -76,13 +84,13 @@ begin
     function _create_rust -a name
         set opts "--name=$name"
 
-        if contains -- --lib $argv
+        if contains -- '--lib' $argv
             set -a opts '--lib'
         else
             set -a opts '--bin'
         end
 
-        if contains -- --no-git $argv
+        if contains -- '--no-git' $argv
             set -a opts '--vcs none'
         end
 
@@ -92,7 +100,7 @@ begin
     function _create_zig -a name
         set cmd 'init-exe'
 
-        if contains -- --lib $argv
+        if contains -- '--lib' $argv
             set cmd 'init-lib'
         end
 
@@ -104,11 +112,11 @@ begin
             '}\n' \
         > build.zig.zon
 
-        if not contains -- --no-git $argv
+        command zig $cmd
+
+        if not contains -- '--no-git' $argv
             _init_git $zig_gitignore
         end
-
-        command zig $cmd
     end
 
     function _init_git -a gitignore_url
@@ -118,44 +126,47 @@ begin
 
     function kick -d 'Kickstarts a new software development project'
         set -l opts (fish_opt -s h -l help)
-        set -a opts (fish_opt -s l -l lang --optional-val)
-        set -a opts (fish_opt -s L -l lib --long-only)
-        set -a opts (fish_opt -s n -l name --optional-val)
-        set -a opts (fish_opt -s G -l no-git --long-only)
-        set -a opts (fish_opt -s V -l no-venv --long-only)
+        set -a opts (fish_opt -s L -l lang --long-only --optional-val)
+        set -a opts (fish_opt -s n -l name --required-val)
+        set -a opts (fish_opt -s l -l lib)
+        set -a opts (fish_opt -s G -l no-git)
+        set -a opts (fish_opt -s R -l no-readme)
+        set -a opts (fish_opt -s V -l no-venv)
 
-        argparse --ignore-unknown $opts -- $argv
+        argparse --ignore-unknown --stop-nonopt $opts -- $argv
         or return
 
-        if test $_flag_help
+        if test -n "$_flag_help"
             echo 'Kickstart a new software development project.'
             echo ''
-            echo 'Usage:'
-            echo '    kick [OPTS...] [TARGET]'
+            echo "Usage: $_ [OPTS...] [TARGET]"
             echo ''
             echo 'Options:'
-            echo '    --lang=python    Creates a Python project [default]'
-            echo '    --lang=go        Creates a Go project'
-            echo '    --lang=rust      Creates a Rust project'
-            echo '    --lang=zig       Creates a Zig project'
+            echo '  --lang=python      Creates a Python project [default]'
+            echo '  --lang=go          Creates a Go project'
+            echo '  --lang=rust        Creates a Rust project'
+            echo '  --lang=zig         Creates a Zig project'
             echo ''
-            echo '    --name=<NAME>    Specifies the project name [default: "thingy"]'
-            echo '    --lib            Specifies the project is a library'
-            echo '    --no-git         Ignores Git VCS initialization'
+            echo '  -n, --name <NAME>  Specifies the project name [default: "unnamed"]'
+            echo '  -l, --lib          Specifies the project is a library'
+            echo '  -G, --no-git       Omits Git VCS initialization'
+            echo '  -R, --no-readme    Omits README.md creation'
             echo ''
             echo 'Python Options:'
-            echo '    --no-venv        Ignores Python virtual environment creation'
+            echo '  -V, --no-venv      Ignores Python virtual environment creation'
             echo ''
             echo 'Parameters:'
-            echo '    TARGET           A target directory [default: "."]'
+            echo '  TARGET             A target directory [default: "."]'
             return
         end
 
-        set _flag_lang (string trim "$_flag_lang")
+        set lang $languages[1]
 
-        if test -z "$_flag_lang"
-            set _flag_lang $languages[1]
-        else if not contains "$_flag_lang" $languages
+        if test -n "$_flag_lang"
+            set lang (string trim "$_flag_lang")
+        end
+
+        if not contains "$lang" $languages
             echo -s \
                 (set_color $fish_color_error) \
                 'error: invalid language name; must be either ' \
@@ -164,47 +175,69 @@ begin
             return 1
         end
 
-        set _flag_name (string trim "$_flag_name")
+        set target '.'
 
-        if test -z "$_flag_name"
-            set _flag_name 'thingy'
+        if test -z "$argv[1]"
+            set target "$argv[1]"
         end
 
-        # NOTE: after argparse use, the $argv contains only parameters
-        set target (path resolve "$argv[1]") # TODO: error handling maybe?
+        set target (path resolve "$target") # TODO: error handling maybe?
 
-        if test (ls -1A "$target" 2> /dev/null | wc -l | string trim) -gt 0
-            read -lun1 -P 'directory is not empty; continue anyway? [y|N] ' answer
-            if test "$answer" != 'y'
-                return 0
-            end
-        else if test "$target" != "$PWD"
+        if test "$target" != "$PWD"
             mkdir -p $target
             and cd $target
         end
 
-        set flags $_flag_name $_flag_lib $_flag_no_git $_flag_no_venv
+        if test (ls -1A 2> /dev/null | wc -l | string trim) -gt 0
+            read -lun1 -P 'directory is not empty; continue anyway? [y|N] ' answer
+            if test "$answer" != 'y'
+                return 0
+            end
+        end
 
-        switch "$_flag_lang"
-            case python
-                _create_python $flags
-            case go
-                _create_go $flags
-            case rust
-                _create_rust $flags
-            case zig
-                _create_zig $flags
+        set name "$default_name"
+
+        if test -n "$_flag_name"
+            set name "$_flag_name"
+        end
+
+        switch "$lang"
+            case 'python'
+                _create_python $name $_flag_lib $_flag_no_git $_flag_no_venv
+            case 'go'
+                _create_go $name $_flag_lib $_flag_no_git
+            case 'rust'
+                _create_rust $name $_flag_lib $_flag_no_git
+            case 'zig'
+                _create_zig $name $_flag_lib $_flag_no_git
         end
 
         if test $status -ne 0
-            cd ..
-            # rm -rf $target
+            echo -s \
+                (set_color $fish_color_error) \
+                'error: something went wrong' \
+                (set_color normal)
+
+            if test "$PWD" = "$target"
+                cd ..
+            end
+
+            if test -d "$target"
+                echo -s \
+                    (set_color yellow) \
+                    "consider removing $target" \
+                    (set_color normal)
+                # rm -rf $target
+            end
+
             return 1
         end
 
-        echo "# $name" > README.md
+        if test -z "$_flag_no_readme"
+            echo "# $name" > README.md
+        end
 
-        if test -z "$_flag_no_git"; and test -d .git
+        if test -z "$_flag_no_git" -a -d .git
             git add --all
         end
     end
