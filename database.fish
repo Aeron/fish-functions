@@ -103,6 +103,7 @@ begin
 
     function database -d 'Manages databases as containers (via Docker)'
         argparse --ignore-unknown --stop-nonopt -- $argv
+        or return
 
         switch "$argv[1] $argv[2]"
             case 'up mongo' 'start mongo'
