@@ -127,11 +127,11 @@ begin
     function kick -d 'Kickstarts a new software development project'
         set -l opts (fish_opt -s h -l help)
         set -a opts (fish_opt -s L -l lang --long-only --optional-val)
-        set -a opts (fish_opt -s n -l name --required-val)
-        set -a opts (fish_opt -s l -l lib)
-        set -a opts (fish_opt -s G -l no-git)
-        set -a opts (fish_opt -s R -l no-readme)
-        set -a opts (fish_opt -s V -l no-venv)
+        set -a opts (fish_opt -s n -l name --long-only --required-val)
+        set -a opts (fish_opt -s l -l lib --long-only)
+        set -a opts (fish_opt -s G -l no-git --long-only)
+        set -a opts (fish_opt -s R -l no-readme --long-only)
+        set -a opts (fish_opt -s V -l no-venv --long-only)
 
         argparse --ignore-unknown --stop-nonopt $opts -- $argv
         or return
@@ -142,21 +142,21 @@ begin
             echo "Usage: $_ [OPTS...] [TARGET]"
             echo ''
             echo 'Options:'
-            echo '  --lang=python      Creates a Python project [default]'
-            echo '  --lang=go          Creates a Go project'
-            echo '  --lang=rust        Creates a Rust project'
-            echo '  --lang=zig         Creates a Zig project'
+            echo '  --lang=python    Creates a Python project [default]'
+            echo '  --lang=go        Creates a Go project'
+            echo '  --lang=rust      Creates a Rust project'
+            echo '  --lang=zig       Creates a Zig project'
             echo ''
-            echo '  -n, --name <NAME>  Specifies the project name [default: "unnamed"]'
-            echo '  -l, --lib          Specifies the project is a library'
-            echo '  -G, --no-git       Omits Git VCS initialization'
-            echo '  -R, --no-readme    Omits README.md creation'
+            echo '  --name=[<NAME>]  Specifies the project name [default: "unnamed"]'
+            echo '  --lib            Specifies the project is a library'
+            echo '  --no-git         Omits Git VCS initialization'
+            echo '  --no-readme      Omits README.md creation'
             echo ''
             echo 'Python Options:'
-            echo '  -V, --no-venv      Ignores Python virtual environment creation'
+            echo '  -V, --no-venv    Ignores Python virtual environment creation'
             echo ''
             echo 'Parameters:'
-            echo '  TARGET             A target directory [default: "."]'
+            echo '  TARGET           A target directory [default: "."]'
             return
         end
 
@@ -177,13 +177,14 @@ begin
 
         set target '.'
 
-        if test -z "$argv[1]"
+        if test -n "$argv[1]"
             set target "$argv[1]"
         end
 
-        set target (path resolve "$target") # TODO: error handling maybe?
+        set target (path resolve "$target")
 
         if test "$target" != "$PWD"
+            echo "Creating $target"
             mkdir -p $target
             and cd $target
         end
