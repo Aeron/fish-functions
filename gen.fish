@@ -1,9 +1,6 @@
 begin
-    function napi -a value
-        if string match -qr '^\d+$' (string trim $value)
-            return 1
-        end
-        return 0
+    function is_valid_integer -a value
+        return (string match -qr '^\d+$' -- "$value"; and test "$value" -gt 0)
     end
 
     function ssh_key -a filename comment
@@ -25,10 +22,10 @@ begin
 
         if test -z "$days"
             set days 365
-        else if napi $bits
+        else if not is_valid_integer "$bits"
             echo -s \
                 (set_color $fish_color_error) \
-                "error: days value must be a positive integer" \
+                "error: days value must be a positive integer and greater than zero" \
                 (set_color normal)
             return 1
         end
@@ -47,10 +44,10 @@ begin
     function rand_base64 -a bits
         if test -z "$bits"
             set bits 32
-        else if napi $bits
+        else if not is_valid_integer "$bits"
             echo -s \
                 (set_color $fish_color_error) \
-                "error: bit-length must be a positive integer" \
+                "error: bit-length must be a positive integer and greater than zero" \
                 (set_color normal)
             return 1
         end
