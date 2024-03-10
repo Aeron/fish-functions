@@ -60,12 +60,6 @@ normal.
 
 Usage: `cal [ARGS...]`
 
-### > cip
-
-Displays the current IP addresses (using [ifconfig.co](https://ifconfig.co)).
-
-Usage: `cip`
-
 ### > config
 
 Manages various utility configurations. For example: `fish`, `mise`, `starship`.
@@ -267,6 +261,27 @@ Usage: `mise-up [--check-only]`
 Configures a local mise-en-place (former rtx) Python with a virtual environment.
 
 Usage: `mise-venv`
+
+### > net
+
+Displays network stuff (IP address(es), used port(s), etc).
+
+```text
+Usage: net CMD [OPTS]
+
+Commands:
+  addrs              Display the current public IP address(es)
+  ports              Display the port(s) currently in use
+
+Addresses Options:
+  -4, --ipv4         Prefer an IPv4 address
+  -6, --ipv6         Prefer an IPv6 address
+
+Ports Options
+  -p, --proto PROTO  A protocol to lookup [default: "TCP"]
+  -s, --state STATE  A state to lookup [default: "LISTEN"]
+  -n, --num PORT     A port number to lookup
+```
 
 ### > notify
 
