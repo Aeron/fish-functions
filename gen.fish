@@ -5,7 +5,7 @@ begin
 
     function ssh_key -a filename comment
         if test -z "$filename"
-            set filename key
+            set filename 'key'
         end
 
         if test -z "$comment"
@@ -17,7 +17,7 @@ begin
 
     function x509_cert -a cname days
         if test -z "$cname"
-            set cname localhost
+            set cname 'localhost'
         end
 
         if test -z "$days"
@@ -68,7 +68,7 @@ begin
         set params (string match --invert -- '-*' $argv)
 
         switch "$params[1]"
-            case 'cert' 'x509'
+            case 'x509' 'cert'
                 x509_cert $_flag_cn $_flag_days
             case 'ssh' 'key'
                 ssh_key $_flag_filename $_flag_comment
@@ -77,23 +77,26 @@ begin
             case '*'
                 echo "Generate either an X.509 cert, SSH key, or random base64 string."
                 echo ''
-                echo 'Usage:'
-                echo "    $_ ENTITY [OPTS]"
+                echo "Usage: $_ ENTITY [OPTS...]"
                 echo ''
                 echo 'Entities:'
-                echo '    cert/x509          Generate an X.509 certificate'
-                echo '    ssh/key            Generate an SSH key'
-                echo '    base64/b64         Generate a random base64 string'
+                echo '  x509/cert          Generate an X.509 certificate'
+                echo '  ssh/key            Generate an SSH key'
+                echo '  base64/b64         Generate a random base64 string'
                 echo ''
-                echo 'Options:'
-                echo '    --bits=NUM         Base64 binary bit-length [optional]'
-                echo '    --cn=NAME          Certificate common name [optional]'
-                echo '    --days=NUM         Certificate validity period [optional]'
-                echo '    --filename=NAME    SSH key filename [optional]'
-                echo '    --comment=TEXT     SSH key comment [optional]'
+                echo 'X.509 Options:'
+                echo '  --cn=<NAME>        Certificate common name [default: "localhost"]'
+                echo '  --days=<NUM>       Certificate validity period [default: 365]'
+                echo ''
+                echo 'SSH Options:'
+                echo '  --filename=<NAME>  SSH key filename [default: "key"]'
+                echo "  --comment=<TEXT>   SSH key comment [default: \"$(whoami)@$(hostname)\"]"
+                echo ''
+                echo 'Base64 Options:'
+                echo '  --bits=<NUM>       Base64 binary bit-length [default: 32]'
                 echo ''
                 echo 'Parameters:'
-                echo '    ENTITY             An entity name [required]'
+                echo '  ENTITY             An entity name [required]'
         end
     end
 end

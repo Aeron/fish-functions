@@ -118,20 +118,20 @@ begin
             case '*'
                 echo 'Display network stuff (IP address(es), used port(s), etc).'
                 echo ''
-                echo "Usage: $_ CMD [OPTS]"
+                echo "Usage: $_ CMD [OPTS...]"
                 echo ''
                 echo 'Commands:'
-                echo '  addrs              Display the current public IP address(es)'
-                echo '  ports              Display the port(s) currently in use'
+                echo '  addrs                Display the current public IP address(es)'
+                echo '  ports                Display the port(s) currently in use'
                 echo ''
                 echo 'Addresses Options:'
-                echo '  -4, --ipv4         Prefer an IPv4 address'
-                echo '  -6, --ipv6         Prefer an IPv6 address'
+                echo '  -4, --ipv4           Prefer an IPv4 address'
+                echo '  -6, --ipv6           Prefer an IPv6 address'
                 echo ''
-                echo 'Ports Options'
-                echo '  -p, --proto PROTO  A protocol to lookup [default: "TCP"]'
-                echo '  -s, --state STATE  A state to lookup [default: "LISTEN"]'
-                echo '  -n, --num PORT     A port number to lookup'
+                echo 'Ports Options:'
+                echo '  -p, --proto=<PROTO>  A protocol to lookup [default: "TCP"]'
+                echo '  -s, --state=<STATE>  A state to lookup [default: "LISTEN"]'
+                echo '  -n, --num PORT       A port number to lookup'
         end
     end
 end

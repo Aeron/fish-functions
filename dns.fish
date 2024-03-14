@@ -1,4 +1,4 @@
-function dns -a cmd name -d 'Adds/removes common DNS servers'
+function dns -a cmd name -d 'Manages common DNS servers of a given network'
     if test -z "$name"
         set name 'Wi-Fi'
     end
@@ -35,19 +35,18 @@ function dns -a cmd name -d 'Adds/removes common DNS servers'
         case 'clear'
             command networksetup -setdnsservers "$name" empty
         case '*'
-            echo "$_ add or remove common DNS servers to or from a network."
+            echo "Manage common DNS servers of a given network."
             echo ''
-            echo 'Usage:'
-            echo "    $_ CMD [NAME]"
+            echo "Usage: $_ CMD [NAME]"
             echo ''
             echo 'Commands:'
-            echo '    list/ls      Lists current DNS servers of a network'
-            echo '    add          Adds common DNS servers to a network'
-            echo '    rm/remove    Removes common DNS servers from a network'
-            echo '    clean        Cleans all DNS servers of a network'
+            echo '  list/ls    Lists current DNS servers of a network'
+            echo '  add        Adds common DNS servers to a network'
+            echo '  rm/remove  Removes common DNS servers from a network'
+            echo '  clean      Cleans all DNS servers of a network'
             echo ''
             echo 'Parameters:'
-            echo '    CMD          A command to perform [required]'
-            echo '    NAME         A network name [default: "Wi-Fi"]'
+            echo '  CMD        A command to perform [required]'
+            echo '  NAME       A network name [default: "Wi-Fi"]'
     end
 end
