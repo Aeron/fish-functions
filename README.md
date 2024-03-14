@@ -162,12 +162,24 @@ Usage: `flushdns`
 
 ### > fuzz
 
-Interactive fuzzy finder on top of [`ripgrep`][ripgrep]+[`skim`][skim].
+Interactive fuzzy finder.
 
-Usage: `fuzz [RG_QUERY [SK_QUERY]]`
+It requires [`ripgrep`][ripgrep] and [`fzf`][fzf] or [`skim`][skim].
+
+```text
+Usage: fuzz [OPTS...] RG_QUERY [FZ_QUERY]
+
+Options:
+  -s, --skim  Use skim instead of fzf
+
+Parameters:
+  RG_QUERY    An initial filtering ripgrep query
+  FZ_QUERY    A fuzzy finder query [optional]
+```
 
 [ripgrep]: https://github.com/BurntSushi/ripgrep
 [skim]: https://github.com/lotabout/skim
+[fzf]: https://github.com/junegunn/fzf
 
 ### > gen
 
