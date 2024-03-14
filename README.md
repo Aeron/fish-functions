@@ -182,15 +182,15 @@ Entities:
   base64/b64         Generate a random base64 string
 
 X.509 Options:
-  --cn=<NAME>        Certificate common name [optional]
-  --days=<NUM>       Certificate validity period [optional]
+  --cn=<NAME>        Certificate common name [default: "localhost"]
+  --days=<NUM>       Certificate validity period [default: 365]
 
 SSH Options:
-  --filename=<NAME>  SSH key filename [optional]
-  --comment=<TEXT>   SSH key comment [optional]
+  --filename=<NAME>  SSH key filename [default: "key"]
+  --comment=<TEXT>   SSH key comment [default: "username@hosname"]
 
 Base64 Options:
-  --bits=<NUM>       Base64 binary bit-length [optional]
+  --bits=<NUM>       Base64 binary bit-length [default: 32]
 
 Parameters:
   ENTITY             An entity name [required]
