@@ -3,7 +3,7 @@
 A repo with my [Fish](http://fishshell.com) shell functions.
 
 Some are very usable, yet some are just gimmicks and tinkering (e.g., `cal` and
-`notify`), and some are simply outdated and irrelevant (e.g., `vpn` and `smtp`).
+`notify`), and some are simply outdated and irrelevant (e.g., `vpn`).
 
 > [!WARNING]
 > Most of the functions here written for macOS as a platform. Yet some of them
@@ -15,10 +15,10 @@ Some are very usable, yet some are just gimmicks and tinkering (e.g., `cal` and
 [Kenneth Reitz](https://github.com/kennethreitz)’ original theme for
 [Oh-my-ZSH](https://github.com/robbyrussell/oh-my-zsh).
 
-![Terminal with Fish](https://user-images.githubusercontent.com/278423/27943158-783e5b80-62e5-11e7-863b-053dd9d897ab.png)
-
 > [!NOTE]
 > Not using it much these days because of [Starship](https://starship.rs).
+
+![Terminal with Fish](https://user-images.githubusercontent.com/278423/27943158-783e5b80-62e5-11e7-863b-053dd9d897ab.png)
 
 ## Functions
 
@@ -65,18 +65,19 @@ Usage: `cal [ARGS...]`
 Manages various utility configurations. For example: `fish`, `mise`, `starship`.
 
 ```text
-Usage:
-    config UTILITY
+Usage: config UTILITY
 
 Utilities:
-    bottom      Opens the bottom config in the $EDITOR
-    fish        Opens the Fish config in the $EDITOR
-    lsd         Opens the lsd config in the $EDITOR
-    rtx/mise    Opens the mise-en-place (former rtx) config in the $EDITOR
-    starship    Opens the Starship config in the $EDITOR
+  alacritty    Opens the Alacritty config directory
+  bottom/btm   Opens the bottom config file
+  fish         Opens the Fish config directory
+  lsd          Opens the lsd config directory
+  neovim/nvim  Opens the Neovim config directory
+  rtx/mise     Opens the mise-en-place (former rtx) config directory
+  starship     Opens the Starship config file
 
 Parameters:
-    UTILITY      An utility name [required]
+  UTILITY     An utility name [required]
 ```
 
 ### > curl-time
@@ -90,32 +91,31 @@ Usage: `curl-time URL`
 Manages databases as containers (via Docker).
 
 ```text
-Usage:
-    database COMMAND DATABASE [OPTS...]
+Usage: database COMMAND DATABASE [OPTS...]
 
 Commands:
-    up/start         Starts a new database container
-    down/stop        Stops an existing database container
-    rm/remove        Removes an existing database container
+  up/start       Starts a new database container
+  down/stop      Stops an existing database container
+  rm/remove      Removes an existing database container
 
 Mongo Commands:
-    dump             Exports the content of a running server
-    restore          Restores backups to a running server
+  dump           Exports the content of a running server
+  restore        Restores backups to a running server
 
 Databases:
-    mongo            Specifies MongoDB as a database
-    postgres         Specifies Postgres as a database
-    redis            Specifies Redis as a database
+  mongo          Specifies MongoDB as a database
+  postgres       Specifies Postgres as a database
+  redis          Specifies Redis as a database
 
 Mongo Dump/Restore Options:
-    --path=<PATH>    Specifies a directory path or name
-                     [default: "mongo-dump-<DATE>" and "."]
-    --db=<NAME>      Specifies a database name
-    --coll=<NAME>    Specifies a collection name
+  --path=<PATH>  Specifies a directory path or name
+                 [default: "mongo-dump-<DATE>" and "."]
+  --db=<NAME>    Specifies a database name
+  --coll=<NAME>  Specifies a collection name
 
 Parameters:
-    COMMAND          A command name [required]
-    DATABASE         A database name [required]
+  COMMAND        A command name [required]
+  DATABASE       A database name [required]
 ```
 
 ### > date-hash
@@ -132,22 +132,20 @@ Usage: `date-iso [--short]`
 
 ### > dns
 
-Adds or removes common DNS servers (Quad9 and Cloudflare) to or from a network.
-Or cleans all of network DNS servers.
+Manages common DNS servers (Quad9 and Cloudflare) of a given network.
 
 ```text
-Usage:
-    dns CMD [NAME]
+Usage: dns CMD [NAME]
 
 Commands:
-    list/ls      Lists current DNS servers of a network
-    add          Adds common DNS servers to a network
-    rm/remove    Removes common DNS servers from a network
-    clean        Cleans all DNS servers of a network
+  list/ls    Lists current DNS servers of a network
+  add        Adds common DNS servers to a network
+  rm/remove  Removes common DNS servers from a network
+  clean      Cleans all DNS servers of a network
 
 Parameters:
-    CMD          A command to perform [required]
-    NAME         A network name [default: "Wi-Fi"]
+  CMD        A command to perform [required]
+  NAME       A network name [default: "Wi-Fi"]
 ```
 
 ### > docker-reset
@@ -176,23 +174,26 @@ Usage: `fuzz [RG_QUERY [SK_QUERY]]`
 Generates either an X.509 cert, SSH key, or random base64 string.
 
 ```text
-Usage:
-    gen ENTITY [OPTS]
+Usage: gen ENTITY [OPTS...]
 
 Entities:
-    cert/x509          Generate an X.509 certificate
-    ssh/key            Generate an SSH key
-    base64/b64         Generate a random base64 string
+  x509/cert          Generate an X.509 certificate
+  ssh/key            Generate an SSH key
+  base64/b64         Generate a random base64 string
 
-Options:
-    --bits=NUM         Base64 binary bit-length [optional]
-    --cn=NAME          Certificate common name [optional]
-    --days=NUM         Certificate validity period [optional]
-    --filename=NAME    SSH key filename [optional]
-    --comment=TEXT     SSH key comment [optional]
+X.509 Options:
+  --cn=<NAME>        Certificate common name [optional]
+  --days=<NUM>       Certificate validity period [optional]
+
+SSH Options:
+  --filename=<NAME>  SSH key filename [optional]
+  --comment=<TEXT>   SSH key comment [optional]
+
+Base64 Options:
+  --bits=<NUM>       Base64 binary bit-length [optional]
 
 Parameters:
-    ENTITY             An entity name [required]
+  ENTITY             An entity name [required]
 ```
 
 ### > hide
@@ -212,24 +213,24 @@ Usage: `ip-up-add SUBNET [COMMENT]`
 Kickstarts a new software development project.
 
 ```text
-Usage:
-    kick [OPTS...] [TARGET]
+Usage: kick [OPTS...] [TARGET]
 
 Options:
-    --lang=python    Creates a Python project [default]
-    --lang=go        Creates a Go project
-    --lang=rust      Creates a Rust project
-    --lang=zig       Creates a Zig project
+  --lang=python  Creates a Python project [default]
+  --lang=go      Creates a Go project
+  --lang=rust    Creates a Rust project
+  --lang=zig     Creates a Zig project
 
-    --name=<NAME>    Specifies the project name [default: "thingy"]
-    --lib            Specifies the project is a library
-    --no-git         Ignores Git VCS initialization
+  --name=<NAME>  Specifies the project name [default: "unnamed"]
+  --lib          Specifies the project is a library
+  --no-git       Omits Git VCS initialization
+  --no-readme    Omits README.md creation
 
 Python Options:
-    --no-venv        Ignores Python virtual environment creation
+  -V, --no-venv  Ignores Python virtual environment creation
 
 Parameters:
-    TARGET           A target directory [default: "."]
+  TARGET         A target directory [default: "."]
 ```
 
 ### > kube-ctx
@@ -267,20 +268,20 @@ Usage: `mise-venv`
 Displays network stuff (IP address(es), used port(s), etc).
 
 ```text
-Usage: net CMD [OPTS]
+Usage: net CMD [OPTS...]
 
 Commands:
-  addrs              Display the current public IP address(es)
-  ports              Display the port(s) currently in use
+  addrs                Display the current public IP address(es)
+  ports                Display the port(s) currently in use
 
 Addresses Options:
-  -4, --ipv4         Prefer an IPv4 address
-  -6, --ipv6         Prefer an IPv6 address
+  -4, --ipv4           Prefer an IPv4 address
+  -6, --ipv6           Prefer an IPv6 address
 
-Ports Options
-  -p, --proto PROTO  A protocol to lookup [default: "TCP"]
-  -s, --state STATE  A state to lookup [default: "LISTEN"]
-  -n, --num PORT     A port number to lookup
+Ports Options:
+  -p, --proto=<PROTO>  A protocol to lookup [default: "TCP"]
+  -s, --state=<STATE>  A state to lookup [default: "LISTEN"]
+  -n, --num PORT       A port number to lookup
 ```
 
 ### > notify
@@ -374,7 +375,7 @@ Usage: `unlock PATH [--sign]`
 
 ### > up-up
 
-Updates macOS software, Homebrew, asdf, and local Python packages.
+Updates macOS software, Homebrew, mise-en-place, and local Python packages.
 
 An alias for `soft-up`, `brew-up`, `mise-up`, and `pip-up`.
 
