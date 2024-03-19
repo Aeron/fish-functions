@@ -8,6 +8,8 @@ function config -a utility -d 'Manages various utility configurations'
             eval $EDITOR ~/.config/bottom/bottom.toml
         case 'fish'
             eval $EDITOR_DIR ~/.config/fish
+        case 'jj'
+            jj config edit --user
         case 'lsd'
             eval $EDITOR_DIR ~/.config/lsd
         case 'neovim' 'nvim'
@@ -25,6 +27,7 @@ function config -a utility -d 'Manages various utility configurations'
             echo '  alacritty    Opens the Alacritty config directory'
             echo '  bottom/btm   Opens the bottom config file'
             echo '  fish         Opens the Fish config directory'
+            echo '  jj           Opens the jj config file'
             echo '  lsd          Opens the lsd config directory'
             echo '  neovim/nvim  Opens the Neovim config directory'
             echo '  rtx/mise     Opens the mise-en-place (former rtx) config directory'
