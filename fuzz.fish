@@ -19,7 +19,7 @@ begin
             return 1
         end
 
-        FZF_DEFAULT_COMMAND="$prefix $argv[1]" \
+        FZF_DEFAULT_COMMAND="$prefix '$argv[1]'" \
         fzf --ansi \
             --no-bold \
             --tabstop=4 \
