@@ -5,11 +5,14 @@ begin
 
     set preview_rg 'bat --number --color=always --highlight-line={2} {1}'
     set preview_file 'bat --number --color=always {1}'
-    set preview_dir 'lsd -A --color=always --tree --depth=2 {1}'
+    set preview_dir 'lsd --blocks=permission,size,name --color=always --tree --depth=2 {1}'
 
-    set window 'up,66%,border-bottom,+{2}+3/3,~3'
+    set window 'right,50%,border-left'
+    if test (math (tput cols) / (tput lines)) -lt 2
+        set window 'up,66%,border-bottom'
+    end
 
-    set prompt 'fzf ❯ '
+    set prompt ': '
     set pointer '❯'
     set marker '+'
 
