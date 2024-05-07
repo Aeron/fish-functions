@@ -1,78 +1,115 @@
 begin
-    set prefix 'rg --column --line-number --no-heading --color=always --smart-case'
-    set preview 'bat --number --color=always --highlight-line={2} {1}'
+    set prefix_rg 'rg --column --line-number --no-heading --color=always --smart-case'
+    set prefix_file 'fd --hidden --type f'
+    set prefix_dir 'fd --hidden --type d'
 
-    set prompt_rg 'rg ❯ '
-    set prompt_fzf 'fzf ❯ '
-    set prompt_sk 'sk ❯ '
+    set preview_rg 'bat --number --color=always --highlight-line={2} {1}'
+    set preview_file 'bat --number --color=always {1}'
+    set preview_dir 'lsd -A --color=always --tree --depth=2 {1}'
 
-    set color 'hl:-1,hl+:-1'
+    set window 'up,66%,border-bottom,+{2}+3/3,~3'
 
-    function ripgrep-fzf
-        set tmp_rg_path /tmp/fuzz-rg
-        set tmp_fzf_path /tmp/fuzz-fzf
+    set prompt 'fzf ❯ '
+    set pointer '❯'
+    set marker '+'
 
-        rm -f $tmp_rg_path $tmp_fzf_path
+    # set color 'hl:-1,hl+:-1'
 
-        if not command -q rg; or not command -q fzf
-            echo "error: both ripgrep and fzf must be installed"
+    function fd-fzf-file
+        if not command -q fd
+            echo "error: fd must be installed"
             return 1
         end
 
-        FZF_DEFAULT_COMMAND="$prefix '$argv[1]'" \
+        FZF_DEFAULT_COMMAND="$prefix_file '$argv[1]'" \
         fzf --ansi \
             --no-bold \
             --tabstop=4 \
-            --color "$color" \
-            --prompt "$prompt_fzf" \
+            # --color "$color" \
+            --prompt "$prompt" \
+            --pointer "$pointer" \
+            --marker "$marker" \
             --query "$argv[2]" \
             --delimiter ':' \
-            --preview "$preview" \
-            --preview-window 'up,66%,border-bottom,+{2}+3/3,~3' \
-            --bind "enter:become($EDITOR {1}:{2}:{3})"
+            --preview "$preview_file" \
+            --preview-window "$window" \
+            --bind "enter:become($EDITOR {1})" \
+            --bind "ctrl-o:become(open -R {1})"
     end
 
-    function ripgrep-skim
-        if not command -q rg; or not command -q sk
-            echo "error: both ripgrep and skim must be installed"
+    function fd-fzf-dir
+        if not command -q fd
+            echo "error: fd must be installed"
             return 1
         end
 
-        sk  --ansi \
+        FZF_DEFAULT_COMMAND="$prefix_dir '$argv[1]'" \
+        fzf --ansi \
             --no-bold \
-            --color "$color" \
             --tabstop=4 \
-            --cmd "$prefix \"{}\""\
-            --cmd-query "$argv[1]" \
-            --cmd-prompt "$prompt_rg" \
-            --prompt "$prompt_sk" \
+            # --color "$color" \
+            --prompt "$prompt" \
+            --pointer "$pointer" \
+            --marker "$marker" \
             --query "$argv[2]" \
             --delimiter ':' \
-            --preview "$preview" \
-            --preview-window 'up:66%' \
-            --bind "enter:execute($EDITOR {1}:{2}:{3})"
+            --preview "$preview_dir" \
+            --preview-window "$window" \
+            --bind "enter:become($EDITOR {1})" \
+            --bind "ctrl-o:become(open {1})"
+    end
+
+    function ripgrep-fzf
+        if not command -q rg
+            echo "error: ripgrep must be installed"
+            return 1
+        end
+
+        FZF_DEFAULT_COMMAND="$prefix_rg '$argv[1]'" \
+        fzf --ansi \
+            --no-bold \
+            --tabstop=4 \
+            # --color "$color" \
+            --prompt "$prompt" \
+            --pointer "$pointer" \
+            --marker "$marker" \
+            --query "$argv[2]" \
+            --delimiter ':' \
+            --preview "$preview_rg" \
+            --preview-window "$window" \
+            --bind "enter:become($EDITOR {1}:{2}:{3})" \
+            --bind "ctrl-o:become(open -R {1})"
     end
 
     # NOTE: skim already smells like abandonware, and it has unsolved issues, so
     # it is not always convenient or even possible to use
     function fuzz -d 'Interactive fuzzy finder'
+        if not command -q fzf
+            echo "error: fzf must be installed"
+            return 1
+        end
+
         set -l opts (fish_opt -s h -l help)
-        set -a opts (fish_opt -s s -l skim --long-only)
+        set -a opts (fish_opt -s f -l file)
+        set -a opts (fish_opt -s d -l dir)
 
         argparse --ignore-unknown --stop-nonopt $opts -- $argv
         or return
 
         if test -n "$_flag_help" -o -z "$argv"
-            echo "Usage: $_ [OPTS...] RG_QUERY [FZ_QUERY]"
+            echo "Usage: $_ [OPTS...] INIT_QUERY [FZF_QUERY]"
             echo ''
             echo 'Options:'
-            echo '  -s, --skim  Use skim instead of fzf'
+            echo '  -f, --file  Use file name search'
+            echo '  -d, --dir   Use directory name search'
             echo ''
             echo 'Parameters:'
-            echo '  RG_QUERY    An initial filtering ripgrep query'
-            echo '  FZ_QUERY    A fuzzy finder query [optional]'
-        else if test -n "$_flag_skim"
-            ripgrep-skim $argv
+            echo '  INIT_QUERY  An initial pre-filtering query'
+            echo '  FZF_QUERY   A fuzzy finder query [optional]'
+        else if test -n "$_flag_file"
+            fd-fzf-file $argv
+        else if test -n "$_flag_dir"
+            fd-fzf-dir $argv
         else
             ripgrep-fzf $argv
         end
