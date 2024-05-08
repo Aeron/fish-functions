@@ -1,35 +1,33 @@
 begin
-    set mongo 'mongo'
+    set mongo_image 'ghcr.io/zcube/bitnami-compat/mongodb:6.0'
     set mongo_opts \
         -v $HOME/.local/var/mongo:/bitnami/mongodb/data/db:rw \
         -p 127.0.0.1:27017:27017/tcp \
         -e ALLOW_EMPTY_PASSWORD=yes \
         -e MONGODB_DISABLE_SYSTEM_LOG=true \
-        -e MONGODB_ENABLE_DIRECTORY_PER_DB=true \
+        -e MONGODB_ENABLE_DIRECTORY_PER_DB=true
         # NOTE: looks like the "Failed to refresh key cache" error is still a thing
         # (see https://www.mongodb.com/community/forums/t/single-node-replicaset-never-finishing-instanciating-error-cannot-use-non-local-read-concern-until-replica-set-is-finished-initializing/164815)
         # -e MONGODB_REPLICA_SET_MODE=primary \
-        ghcr.io/zcube/bitnami-compat/mongodb:6.0
 
-    set postgres 'postgres'
+    set postgres_image 'bitnami/postgresql:16'
     set postgres_opts \
         -v $HOME/.local/var/postgres:/bitnami/postgresql/data:rw \
         -p 127.0.0.1:5432:5432/tcp \
         -e ALLOW_EMPTY_PASSWORD=yes \
-        -e POSTGRESQL_REPLICATION_MODE=master \
-        bitnami/postgresql:16
+        -e POSTGRESQL_REPLICATION_MODE=master
 
-    set redis 'redis'
-    set redis_opts \
-        -v $HOME/.local/var/redis:/bitnami/redis/data:rw \
+    set valkey_image 'bitnami/valkey:7.2'
+    set valkey_opts \
+        -v $HOME/.local/var/valkey:/bitnami/valkey/data:rw \
         -p 127.0.0.1:6379:6379/tcp \
         -e ALLOW_EMPTY_PASSWORD=yes \
-        -e REDIS_REPLICATION_MODE=master \
-        bitnami/redis:7.2
+        -e VALKEY_REPLICATION_MODE=master
 
-    function up -a name
+    function up -a name image
         if test ! (docker ps -aq --filter name=$name)
-            docker run --detach --restart=unless-stopped --name=$name $argv[2..]
+            docker pull $image
+            docker run --detach --restart=unless-stopped --name=$name $argv[3..] $image
         else if test ! (docker ps -q --filter name=$name)
             docker start $name
         else
@@ -54,9 +52,18 @@ begin
     end
 
     function mongo_dump
+        if not command -q mongodump
+            echo -s \
+                (set_color $fish_color_error) \
+                "error: cannot find mongodb-database-tools binaries" \
+                (set_color normal)
+            return 1
+        end
+
         set -l opts (fish_opt -s p -l path --long-only --optional-val)
         set -a opts (fish_opt -s d -l db --long-only --optional-val)
         set -a opts (fish_opt -s c -l coll --long-only --optional-val)
+
         argparse --ignore-unknown $opts -- $argv
         or return
 
@@ -78,9 +85,18 @@ begin
     end
 
     function mongo_restore
+        if not command -q mongorestore
+            echo -s \
+                (set_color $fish_color_error) \
+                "error: cannot find mongodb-database-tools binaries" \
+                (set_color normal)
+            return 1
+        end
+
         set -l opts (fish_opt -s p -l path --long-only --optional-val)
         set -a opts (fish_opt -s d -l db --long-only --optional-val)
         set -a opts (fish_opt -s c -l coll --long-only --optional-val)
+
         argparse --ignore-unknown $opts -- $argv
         or return
 
@@ -107,23 +123,23 @@ begin
 
         switch "$argv[1] $argv[2]"
             case 'up mongo' 'start mongo'
-                up $mongo $mongo_opts
+                up mongo $mongo_image $mongo_opts
             case 'up postgres' 'start postgres'
-                up $postgres $postgres_opts
-            case 'up redis' 'start redis'
-                up $redis $redis_opts
+                up postgres $postgres_image $postgres_opts
+            case 'up redis' 'start redis' 'up valkey' 'start valkey'
+                up valkey $valkey_image $valkey_opts
             case 'down mongo' 'stop mongo'
-                down $mongo
+                down mongo
             case 'down postgres' 'stop postgres'
-                down $postgres
-            case 'down redis' 'stop redis'
-                down $redis
+                down postgres
+            case 'down redis' 'stop redis' 'down valkey' 'stop valkey'
+                down valkey
             case 'rm mongo' 'remove mongo'
-                remove $mongo
+                remove mongo
             case 'rm postgres' 'remove postgres'
-                remove $postgres
-            case 'rm redis' 'remove redis'
-                remove $redis
+                remove postgres
+            case 'rm redis' 'remove redis' 'rm valkey' 'remove redis'
+                remove valkey
             case 'dump mongo'
                 mongo_dump $argv[3..]
             case 'restore mongo'
@@ -145,7 +161,7 @@ begin
                 echo 'Databases:'
                 echo '  mongo          Specifies MongoDB as a database'
                 echo '  postgres       Specifies Postgres as a database'
-                echo '  redis          Specifies Redis as a database'
+                echo '  valkey, redis  Specifies Valkey as a database'
                 echo ''
                 echo 'Mongo Dump/Restore Options:'
                 echo '  --path=<PATH>  Specifies a directory path or name'
