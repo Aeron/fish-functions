@@ -51,72 +51,6 @@ begin
         end
     end
 
-    function mongo_dump
-        if not command -q mongodump
-            echo -s \
-                (set_color $fish_color_error) \
-                "error: cannot find mongodb-database-tools binaries" \
-                (set_color normal)
-            return 1
-        end
-
-        set -l opts (fish_opt -s p -l path --long-only --optional-val)
-        set -a opts (fish_opt -s d -l db --long-only --optional-val)
-        set -a opts (fish_opt -s c -l coll --long-only --optional-val)
-
-        argparse --ignore-unknown $opts -- $argv
-        or return
-
-        if test -z "$_flag_path"
-            set _flag_path "mongo-dump-$(date +%Y-%m-%d)"
-        end
-
-        set cmd_opts '--gzip' "--out=$_flag_path"
-
-        if test -n "$_flag_db"
-            set -a cmd_opts "--db=$_flag_db"
-        end
-
-        if test -n "$_flag_coll"
-            set -a cmd_opts "--collection=$_flag_coll"
-        end
-
-        command mongodump $cmd_opts
-    end
-
-    function mongo_restore
-        if not command -q mongorestore
-            echo -s \
-                (set_color $fish_color_error) \
-                "error: cannot find mongodb-database-tools binaries" \
-                (set_color normal)
-            return 1
-        end
-
-        set -l opts (fish_opt -s p -l path --long-only --optional-val)
-        set -a opts (fish_opt -s d -l db --long-only --optional-val)
-        set -a opts (fish_opt -s c -l coll --long-only --optional-val)
-
-        argparse --ignore-unknown $opts -- $argv
-        or return
-
-        if test -z "$_flag_path"
-            set _flag_path .
-        end
-
-        set cmd_opts '--gzip'
-
-        if test -n "$_flag_db"
-            set -a cmd_opts "--db=$_flag_db"
-        end
-
-        if test -n "$_flag_coll"
-            set -a cmd_opts "--collection=$_flag_coll"
-        end
-
-        command mongorestore $cmd_opts "$_flag_path"
-    end
-
     function database -d 'Manages databases as containers (via Docker)'
         argparse --ignore-unknown --stop-nonopt -- $argv
         or return
@@ -140,34 +74,20 @@ begin
                 remove postgres
             case 'rm redis' 'remove redis' 'rm valkey' 'remove redis'
                 remove valkey
-            case 'dump mongo'
-                mongo_dump $argv[3..]
-            case 'restore mongo'
-                mongo_restore $argv[3..]
             case '*'
                 echo 'Manage databases as containers (via Docker).'
                 echo ''
-                echo "Usage: $_ COMMAND DATABASE [OPTS...]"
+                echo "Usage: $_ COMMAND DATABASE"
                 echo ''
                 echo 'Commands:'
                 echo '  up/start       Starts a new database container'
                 echo '  down/stop      Stops an existing database container'
                 echo '  rm/remove      Removes an existing database container'
                 echo ''
-                echo 'Mongo Commands:'
-                echo '  dump           Exports the content of a running server'
-                echo '  restore        Restores backups to a running server'
-                echo ''
                 echo 'Databases:'
                 echo '  mongo          Specifies MongoDB as a database'
                 echo '  postgres       Specifies Postgres as a database'
                 echo '  valkey, redis  Specifies Valkey as a database'
-                echo ''
-                echo 'Mongo Dump/Restore Options:'
-                echo '  --path=<PATH>  Specifies a directory path or name'
-                echo '                 [default: "mongo-dump-<DATE>" and "."]'
-                echo '  --db=<NAME>    Specifies a database name'
-                echo '  --coll=<NAME>  Specifies a collection name'
                 echo ''
                 echo 'Parameters:'
                 echo '  COMMAND        A command name [required]'
