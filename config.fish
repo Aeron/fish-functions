@@ -8,6 +8,8 @@ function config -a utility -d 'Manages various utility configurations'
             eval $EDITOR ~/.config/bottom/bottom.toml
         case 'fish'
             eval $EDITOR_DIR ~/.config/fish
+        case 'git'
+            git config --global -e
         case 'jj'
             jj config edit --user
         case 'hx' 'helix'
@@ -31,6 +33,7 @@ function config -a utility -d 'Manages various utility configurations'
             echo '  alacritty    Opens the Alacritty config directory'
             echo '  bottom, btm  Opens the bottom config file'
             echo '  fish         Opens the Fish config directory'
+            echo '  git          Opens the Git global config file'
             echo '  jj           Opens the jj config file'
             echo '  hx, helix    Opens the Helix config directory'
             echo '  kube[cli]    Opens the kubecli config file'
@@ -40,6 +43,6 @@ function config -a utility -d 'Manages various utility configurations'
             echo '  starship     Opens the Starship config file'
             echo ''
             echo 'Parameters:'
-            echo '  UTILITY     An utility name [required]'
+            echo '  UTILITY      An utility name [required]'
     end
 end
