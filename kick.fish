@@ -30,11 +30,22 @@ begin
 
         touch pyproject.toml requirements.txt
 
-        mkdir -p $package
-        echo -e '__version__ = "0.0.0"\n' > $package/__init__.py
+        if contains -- '--script' $argv
+            echo -se \
+                'def main(): ...\n\n\n' \
+                'if __name__ == "__main__":\n' \
+                '    main()\n' \
+            > $package.py
+        else
+            mkdir -p $package
+            echo -e '__version__ = "0.0.0"\n' > $package/__init__.py
+        end
 
-        mkdir tests
-        touch tests/__init__.py
+        if not contains -- '--no-tests' $argv
+            mkdir tests
+            touch tests/__init__.py tests/conftest.py
+            echo -e 'pytest >= 7.0\n' > requirements-test.txt
+        end
 
         if not contains -- '--no-venv' $argv
             if functions -q mise-venv
@@ -132,6 +143,8 @@ begin
         set -a opts (fish_opt -s G -l no-git --long-only)
         set -a opts (fish_opt -s R -l no-readme --long-only)
         set -a opts (fish_opt -s V -l no-venv --long-only)
+        set -a opts (fish_opt -s T -l no-tests --long-only)
+        set -a opts (fish_opt -s S -l script --long-only)
 
         argparse --ignore-unknown --stop-nonopt $opts -- $argv
         or return
@@ -153,7 +166,9 @@ begin
             echo '  --no-readme    Omits README.md creation'
             echo ''
             echo 'Python Options:'
-            echo '  -V, --no-venv  Ignores Python virtual environment creation'
+            echo '  --no-venv      Omits Python virtual environment creation'
+            echo '  --no-tests     Omits tests directory creation'
+            echo '  --script       Specifies a single file project structure'
             echo ''
             echo 'Parameters:'
             echo '  TARGET         A target directory [default: "."]'
@@ -202,15 +217,17 @@ begin
             set name "$_flag_name"
         end
 
+        set params $name $_flag_lib $_flag_no_git
+
         switch "$lang"
             case 'python'
-                _create_python $name $_flag_lib $_flag_no_git $_flag_no_venv
+                _create_python $params $_flag_no_venv $_flag_no_tests $_flag_script
             case 'go'
-                _create_go $name $_flag_lib $_flag_no_git
+                _create_go $params
             case 'rust'
-                _create_rust $name $_flag_lib $_flag_no_git
+                _create_rust $params
             case 'zig'
-                _create_zig $name $_flag_lib $_flag_no_git
+                _create_zig $params
         end
 
         if test $status -ne 0
