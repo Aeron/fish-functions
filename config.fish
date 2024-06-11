@@ -19,7 +19,7 @@ function config -a utility -d 'Manages various utility configurations'
         case 'neovim' 'nvim'
             eval $EDITOR_DIR ~/.config/nvim
         case 'rtx' 'mise'
-            eval $EDITOR_DIR ~/.config/mise
+            eval $EDITOR ~/.config/mise/config.toml
         case 'starship'
             eval $EDITOR ~/.config/starship.toml
         case 'kube' 'kubecli'
@@ -39,7 +39,7 @@ function config -a utility -d 'Manages various utility configurations'
             echo '  kube[cli]    Opens the kubecli config file'
             echo '  lsd          Opens the lsd config directory'
             echo '  n[eo]vim     Opens the Neovim config directory'
-            echo '  rtx, mise    Opens the mise-en-place (former rtx) config directory'
+            echo '  rtx, mise    Opens the mise-en-place (former rtx) config file'
             echo '  starship     Opens the Starship config file'
             echo ''
             echo 'Parameters:'
