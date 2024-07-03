@@ -55,7 +55,8 @@ function about -d 'Shows information about this Mac'
 
     # NOTE: 8-bit (xterm-256color) compatible logo colors
     for color in '5faf5f' '5faf5f' '5faf5f' 'ffaf00' 'ff8700' 'd75f5f' '875f87' '00afd7'
-        set -a logo_colored (echo -s (set_color $color) $logo[$logo_line] (set_color normal))
+        set -a logo_colored \
+            (echo -s (set_color $color) $logo[$logo_line] (set_color normal))
         set -l logo_line (math $logo_line + 1)
     end
 
@@ -66,17 +67,44 @@ function about -d 'Shows information about this Mac'
         set -l info_line (math $info_line + 1)
     end
 
+    echo
+
+    set -l term (string replace '_' ' ' (string replace '.app' '' $TERM_PROGRAM))
+    set -l shell (path basename $SHELL)
+
+    set -l term_info \
+        "Shell: $shell" \
+        "Terminal: $term ($TERM)"
+
+    for line in $term_info
+        string pad --width (math $logo_length + (string length --visible $line) + 1) \
+            $line
+    end
+
     set -l term_colors
     set -l term_colors_bright
     set -l term_colors_block '   ' # simply three spaces and no Unicode symbols
     set -l term_colors_block_length (string length --visible $term_colors_block)
-    set -l term_colors_padding (math "$logo_length + $(count $logo_colored) * $term_colors_block_length + 1")
 
     for color in 'black' 'red' 'green' 'yellow' 'blue' 'magenta' 'cyan' 'white'
-        set -a term_colors (echo -s (set_color --background $color) $term_colors_block (set_color normal))
-        set -a term_colors_bright (echo -s (set_color --background br$color) $term_colors_block (set_color normal))
+        set -a term_colors \
+            (echo -s (set_color --background $color) \
+            $term_colors_block \
+            (set_color normal))
+        set -a term_colors_bright \
+            (echo -s (set_color --background br$color) \
+            $term_colors_block \
+            (set_color normal))
     end
 
-    echo
-    string pad --width $term_colors_padding (echo -s $term_colors) (echo -s $term_colors_bright)
+    set -l term_colors (echo -s $term_colors)
+    set -l term_colors_bright (echo -s $term_colors_bright)
+
+    set -l term_colors_padding (
+        math $logo_length + $(string length --visible $term_colors) + 1
+    )
+
+    string pad --width $term_colors_padding \
+        $term_colors \
+        $term_colors_bright
 end
