@@ -7,38 +7,41 @@ begin
 
     set default_name 'unnamed'
 
+    set python_main \
+        'def main(): ...\n\n\n' \
+        'if __name__ == "__main__":\n' \
+        '    main()\n'
+
     function _create_python -a name
         set package 'app'
 
         if contains -- '--lib' $argv
             set package (string trim (string replace '-' '_' "$name"))
 
-            if not string match -aq -r '^[a-z_]+$' "$package"
+            if not string match -aq -r '^[a-z][a-z0-9_]+$' "$package"
                 echo -s \
                     (set_color $fish_color_error) \
-                    "$package does not comply with package naming" \
+                    "$package does not comply with package naming; " \
+                    "see https://peps.python.org/pep-0008/#package-and-module-names" \
                     (set_color normal)
                 return 1
             end
 
-            # TODO: do we really believe in the src layout?
+            # TODO: do we really believe in the src+package layout?
             # Yes, Hynek, but also common sense. One needs to (un)intentionally
             # design a library the way it’d behave differently as an installed
-            # package. So, it’s either a very special choice or an error.
+            # package. So, it’s either a very specific choice or an error.
             set package "src/$package"
         end
 
         touch pyproject.toml requirements.txt
 
         if contains -- '--script' $argv
-            echo -se \
-                'def main(): ...\n\n\n' \
-                'if __name__ == "__main__":\n' \
-                '    main()\n' \
-            > $package.py
+            echo -se $python_main > $package.py
         else
             mkdir -p $package
             echo -e '__version__ = "0.0.0"\n' > $package/__init__.py
+            echo -se $python_main > $package/main.py
         end
 
         if not contains -- '--no-tests' $argv
@@ -71,13 +74,13 @@ begin
     function _create_go -a name
         # Yeah, there is https://github.com/golang-standards/project-layout, but as
         # Russ Cox (tech lead of the Go language project) explained in a relevant issue,
-        # there are no exact standards for a layout.
+        # there are no exact standards for a Go project layout.
         # See https://github.com/golang-standards/project-layout/issues/117#issuecomment-828503689.
         # Also, https://go.googlesource.com/example/.
         set package 'app'
 
         if contains -- '--lib' $argv
-            set package (string trim (string replace '-' '_' "$name"))
+            set package (string trim "$name")
         end
 
         go mod init $name
