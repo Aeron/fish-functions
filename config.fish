@@ -2,27 +2,31 @@ function config -a utility -d 'Manages various utility configurations'
     set EDITOR_DIR (string replace -r '\-?w' '' "$EDITOR")
 
     switch "$utility"
-        case 'alacritty'
+        case alacritty
             eval $EDITOR_DIR ~/.config/alacritty
-        case 'bottom' 'btm'
+        case bat
+            eval $EDITOR ~/.config/bat/config
+        case bottom btm
             eval $EDITOR ~/.config/bottom/bottom.toml
-        case 'fish'
+        case delta
+            git config edit --global
+        case fish
             eval $EDITOR_DIR ~/.config/fish
-        case 'git'
-            git config --global -e
-        case 'jj'
+        case git
+            git config edit --global
+        case jj
             jj config edit --user
-        case 'hx' 'helix'
+        case hx helix
             eval $EDITOR_DIR ~/.config/helix
-        case 'lsd'
+        case lsd
             eval $EDITOR_DIR ~/.config/lsd
-        case 'neovim' 'nvim'
+        case neovim nvim
             eval $EDITOR_DIR ~/.config/nvim
-        case 'rtx' 'mise'
+        case rtx mise
             eval $EDITOR ~/.config/mise/config.toml
-        case 'starship'
+        case starship
             eval $EDITOR ~/.config/starship.toml
-        case 'kube' 'kubecli'
+        case kube kubecli
             eval $EDITOR ~/.kube/config
         case '*'
             echo 'Manage various utility configurations.'
@@ -31,7 +35,9 @@ function config -a utility -d 'Manages various utility configurations'
             echo ''
             echo 'Utilities:'
             echo '  alacritty    Opens the Alacritty config directory'
+            echo '  bat          Opens the bat config file'
             echo '  bottom, btm  Opens the bottom config file'
+            echo '  delta        Opens the delta config file (same as Git)'
             echo '  fish         Opens the Fish config directory'
             echo '  git          Opens the Git global config file'
             echo '  jj           Opens the jj config file'
