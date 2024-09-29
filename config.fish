@@ -20,6 +20,8 @@ function config -a utility -d 'Manages various utility configurations'
             jj config edit --user
         case hx helix
             eval $EDITOR_DIR ~/.config/helix
+        case kube kubectl
+            eval $EDITOR ~/.kube/config
         case lsd
             eval $EDITOR_DIR ~/.config/lsd
         case neovim nvim
@@ -30,8 +32,6 @@ function config -a utility -d 'Manages various utility configurations'
             eval $EDITOR ~/.config/starship.toml
         case ssh
             eval $EDITOR ~/.ssh/config
-        case kube kubecli
-            eval $EDITOR ~/.kube/config
         case '*'
             echo 'Manage various utility configurations.'
             echo ''
@@ -47,7 +47,7 @@ function config -a utility -d 'Manages various utility configurations'
             echo '  hosts        Opens the hosts config file [required: sudo]'
             echo '  jj           Opens the jj config file'
             echo '  hx, helix    Opens the Helix config directory'
-            echo '  kube[cli]    Opens the kubecli config file'
+            echo '  kube[ctl]    Opens the kubectl config file'
             echo '  lsd          Opens the lsd config directory'
             echo '  n[eo]vim     Opens the Neovim config directory'
             echo '  rtx, mise    Opens the mise-en-place (former rtx) config file'
