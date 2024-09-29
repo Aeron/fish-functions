@@ -69,15 +69,23 @@ Usage: config UTILITY
 
 Utilities:
   alacritty    Opens the Alacritty config directory
-  bottom/btm   Opens the bottom config file
+  bat          Opens the bat config file
+  bottom, btm  Opens the bottom config file
+  delta        Opens the delta config file (same as Git)
   fish         Opens the Fish config directory
+  git          Opens the Git global config file
+  hosts        Opens the hosts config file [required: sudo]
+  jj           Opens the jj config file
+  hx, helix    Opens the Helix config directory
+  kube[ctl]    Opens the kubectl config file
   lsd          Opens the lsd config directory
-  neovim/nvim  Opens the Neovim config directory
-  rtx/mise     Opens the mise-en-place (former rtx) config directory
+  n[eo]vim     Opens the Neovim config directory
+  rtx, mise    Opens the mise-en-place (former rtx) config file
   starship     Opens the Starship config file
+  ssh          Opens the SSH config file
 
 Parameters:
-  UTILITY     An utility name [required]
+  UTILITY      An utility name [required]
 ```
 
 ### > curl-time
