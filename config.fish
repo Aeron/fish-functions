@@ -14,6 +14,8 @@ function config -a utility -d 'Manages various utility configurations'
             eval $EDITOR_DIR ~/.config/fish
         case git
             git config edit --global
+        case hosts
+            eval $EDITOR /etc/hosts
         case jj
             jj config edit --user
         case hx helix
@@ -26,6 +28,8 @@ function config -a utility -d 'Manages various utility configurations'
             eval $EDITOR ~/.config/mise/config.toml
         case starship
             eval $EDITOR ~/.config/starship.toml
+        case ssh
+            eval $EDITOR ~/.ssh/config
         case kube kubecli
             eval $EDITOR ~/.kube/config
         case '*'
@@ -40,6 +44,7 @@ function config -a utility -d 'Manages various utility configurations'
             echo '  delta        Opens the delta config file (same as Git)'
             echo '  fish         Opens the Fish config directory'
             echo '  git          Opens the Git global config file'
+            echo '  hosts        Opens the hosts config file [required: sudo]'
             echo '  jj           Opens the jj config file'
             echo '  hx, helix    Opens the Helix config directory'
             echo '  kube[cli]    Opens the kubecli config file'
@@ -47,6 +52,7 @@ function config -a utility -d 'Manages various utility configurations'
             echo '  n[eo]vim     Opens the Neovim config directory'
             echo '  rtx, mise    Opens the mise-en-place (former rtx) config file'
             echo '  starship     Opens the Starship config file'
+            echo '  ssh          Opens the SSH config file'
             echo ''
             echo 'Parameters:'
             echo '  UTILITY      An utility name [required]'
