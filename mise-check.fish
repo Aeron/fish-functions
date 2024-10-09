@@ -1,14 +1,6 @@
 begin
     function _extract_version
-        set v (string split -f1,2,3 --allow-empty "." $argv)
-
-        for part in 1 2 3
-            if test -z $v[$part]
-                set v[$part] 0
-            end
-
-            echo $v[$part]
-        end
+        string match -rg '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)' -- "$argv"
     end
 
     function mise-check -d "Checks for mise-en-place (former rtx) plugin newer versions"
