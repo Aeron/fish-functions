@@ -1,5 +1,5 @@
 function mise-venv \
-    -d 'Configures a local mise-en-place (former rtx) Python with a virtual environment'
+    -d 'Configures a virtual environment via mise-en-place (former rtx)'
 
     if test -e .mise.toml
         echo -s \
@@ -9,5 +9,12 @@ function mise-venv \
         return
     end
 
-    echo -ne '[tools]\npython = {version="latest", virtualenv=".venv"}\n' > .mise.toml
+    # See https://github.com/jdx/mise/blob/main/docs/lang/python.md#automatic-virtualenv-activation
+    echo -se \
+        '[tools]\n' \
+        'python = "latest"\n\n' \
+        '[env._.python.venv]\n' \
+        'path = ".venv"\n' \
+        'create = true\n' \
+    > .mise.toml
 end
