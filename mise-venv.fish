@@ -17,4 +17,6 @@ function mise-venv \
         'path = ".venv"\n' \
         'create = true\n' \
     > .mise.toml
+
+    command mise trust --quiet
 end
