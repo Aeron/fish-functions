@@ -1,9 +1,11 @@
 begin
     set R '🚀'
     set G '🔍'
+    # set U '─'
+    set U '-'
 
     function title_underscore -a message
-        echo -n (string repeat -n (string length --visible $message) '─')
+        echo -n (string repeat -n (string length --visible $message) $U)
     end
 
     function section_title_update -a section
