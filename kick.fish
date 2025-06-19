@@ -1,58 +1,72 @@
 begin
-    set languages 'python' 'go' 'rust' 'zig'
+    set languages python go rust zig
 
     set python_gitignore 'https://github.com/github/gitignore/raw/main/Python.gitignore'
     set go_gitignore 'https://github.com/github/gitignore/raw/main/Go.gitignore'
     set zig_gitignore 'https://github.com/ziglang/zig/raw/master/.gitignore'
 
-    set default_name 'unnamed'
-
-    set python_main \
-        'def main(): ...\n\n\n' \
-        'if __name__ == "__main__":\n' \
-        '    main()\n'
+    set default_name unnamed
 
     function _create_python -a name
-        set package 'app'
+        if not command -q uv
+            echo -s \
+                (set_color $fish_color_error) \
+                'uv was not found in $PATH' \
+                (set_color normal)
+            return 1
+        end
 
-        if contains -- '--lib' $argv
-            set package (string trim (string replace '-' '_' "$name"))
+        set package app
+        set opts "--name=$name" --no-pin-python
+        set target .
 
-            if not string match -aq -r '^[a-z][a-z0-9_]+$' "$package"
-                echo -s \
-                    (set_color $fish_color_error) \
-                    "$package does not comply with package naming; " \
-                    "see https://peps.python.org/pep-0008/#package-and-module-names" \
-                    (set_color normal)
-                return 1
-            end
-
+        if contains -- --lib $argv
             # TODO: do we really believe in the src+package layout?
             # Yes, Hynek, but also common sense. One needs to (un)intentionally
             # design a library the way it’d behave differently as an installed
-            # package. So, it’s either a very specific choice or an error.
-            set package "src/$package"
-        end
-
-        touch pyproject.toml requirements.txt
-
-        if contains -- '--script' $argv
-            echo -se $python_main > $package.py
+            # package. So, it’s either a very specific choice or a developer’s error.
+            set -a opts --lib
+        else if contains -- --script $argv
+            set -a opts --script
+            set target $package.py
         else
-            mkdir -p $package
-            echo -e '__version__ = "0.0.0"\n' > $package/__init__.py
-            echo -se $python_main > $package/main.py
+            set -a opts --app
         end
 
-        if not contains -- '--no-tests' $argv
+        if contains -- --no-git $argv
+            set -a opts '--vcs=none'
+        else
+            set -a opts '--vcs=git'
+
+            if not contains -- --no-jj $argv
+                _init_jj
+            end
+        end
+
+        if contains -- --no-readme $argv
+            set -a opts --no-readme
+        end
+
+        command uv init $opts $target
+
+        if test -f main.py
+            # NOTE: there’s no way we’re leaving the main code in the root directory
+            mkdir -p $package
+            mv main.py $package/main.py
+            touch $package/__init__.py
+        end
+
+        if not contains -- --no-tests $argv
             mkdir tests
             touch tests/__init__.py tests/conftest.py
-            echo -e 'pytest >= 7.0\n' > requirements-test.txt
+            command uv add pytest
         end
 
-        if not contains -- '--no-venv' $argv
+        if not contains -- --no-venv $argv
             if functions -q mise-venv
                 mise-venv
+            else if command -q uv
+                command uv venv
             else if functions -q venv
                 venv
             else
@@ -63,59 +77,83 @@ begin
                 end
             end
         end
-
-        echo "# $name" > README.md
-
-        if not contains -- '--no-git' $argv
-            _init_git $python_gitignore
-        end
     end
 
     function _create_go -a name
+        if not command -q go
+            echo -s \
+                (set_color $fish_color_error) \
+                'go was not found in $PATH' \
+                (set_color normal)
+            return 1
+        end
+
         # Yeah, there is https://github.com/golang-standards/project-layout, but as
         # Russ Cox (tech lead of the Go language project) explained in a relevant issue,
         # there are no exact standards for a Go project layout.
         # See https://github.com/golang-standards/project-layout/issues/117#issuecomment-828503689.
         # Also, https://go.googlesource.com/example/.
-        set package 'app'
+        set package app
 
-        if contains -- '--lib' $argv
+        if contains -- --lib $argv
             set package (string trim "$name")
         end
 
-        go mod init $name
+        command go mod init $name
 
         mkdir -p $package
         echo "package main" > $package/main.go
 
         echo "# $name" > README.md
 
-        if not contains -- '--no-git' $argv
+        if not contains -- --no-git $argv
             _init_git $go_gitignore
+
+            if not contains -- --no-jj $argv
+                _init_jj
+            end
         end
     end
 
     function _create_rust -a name
-        set opts "--name=$name"
-
-        if contains -- '--lib' $argv
-            set -a opts '--lib'
-        else
-            set -a opts '--bin'
+        if not command -q cargo
+            echo -s \
+                (set_color $fish_color_error) \
+                'cargo was not found in $PATH' \
+                (set_color normal)
+            return 1
         end
 
-        if contains -- '--no-git' $argv
-            set -a opts '--vcs none'
+        set opts "--name=$name"
+
+        if contains -- --lib $argv
+            set -a opts --lib
+        else
+            set -a opts --bin
+        end
+
+        if contains -- --no-git $argv
+            set -a opts '--vcs=none'
+        else if not contains -- --no-jj $argv
+            _init_jj
         end
 
         command cargo init $opts .
     end
 
     function _create_zig -a name
-        set cmd 'init-exe'
+        if not command -q zig
+            echo -s \
+                (set_color $fish_color_error) \
+                'zig was not found in $PATH' \
+                (set_color normal)
+            return 1
+        end
 
-        if contains -- '--lib' $argv
-            set cmd 'init-lib'
+        set cmd init-exe
+
+        if contains -- --lib $argv
+            set cmd init-lib
         end
 
         echo -se \
@@ -128,14 +166,38 @@ begin
 
         command zig $cmd
 
-        if not contains -- '--no-git' $argv
+        if not contains -- --no-git $argv
             _init_git $zig_gitignore
+
+            if not contains -- --no-jj $argv
+                _init_jj
+            end
         end
     end
 
     function _init_git -a gitignore_url
-        curl -Lso .gitignore $gitignore_url
-        git init -q .
+        if not command -q git
+            echo -s \
+                (set_color $fish_color_error) \
+                'git was not found in $PATH' \
+                (set_color normal)
+            return 1
+        end
+
+        command curl -Lso .gitignore $gitignore_url
+        command git init -q .
+    end
+
+    function _init_jj
+        if not command -q jj
+            echo -s \
+                (set_color $fish_color_error) \
+                'jj was not found in $PATH' \
+                (set_color normal)
+            return 1
+        end
+
+        command jj git init --colocate
     end
 
     function kick -d 'Kickstarts a new software development project'
@@ -144,6 +206,7 @@ begin
         set -a opts (fish_opt -s n -l name --long-only --required-val)
         set -a opts (fish_opt -s l -l lib --long-only)
         set -a opts (fish_opt -s G -l no-git --long-only)
+        set -a opts (fish_opt -s J -l no-jj --long-only)
         set -a opts (fish_opt -s R -l no-readme --long-only)
         set -a opts (fish_opt -s V -l no-venv --long-only)
         set -a opts (fish_opt -s T -l no-tests --long-only)
@@ -166,6 +229,7 @@ begin
             echo '  --name=<NAME>  Specifies the project name [default: "unnamed"]'
             echo '  --lib          Specifies the project is a library'
             echo '  --no-git       Omits Git VCS initialization'
+            echo '  --no-jj        Omits Jujutsu (colocate) initialization'
             echo '  --no-readme    Omits README.md creation'
             echo ''
             echo 'Python Options:'
@@ -209,7 +273,7 @@ begin
 
         if test (ls -1A 2> /dev/null | wc -l | string trim) -gt 0
             read -lun1 -P 'directory is not empty; continue anyway? [y|N] ' answer
-            if test "$answer" != 'y'
+            if test "$answer" != y
                 return 0
             end
         end
@@ -220,16 +284,16 @@ begin
             set name "$_flag_name"
         end
 
-        set params $name $_flag_lib $_flag_no_git
+        set params $name $_flag_lib $_flag_no_git $_flag_no_jj $_flag_no_readme
 
         switch "$lang"
-            case 'python'
+            case python
                 _create_python $params $_flag_no_venv $_flag_no_tests $_flag_script
-            case 'go'
+            case go
                 _create_go $params
-            case 'rust'
+            case rust
                 _create_rust $params
-            case 'zig'
+            case zig
                 _create_zig $params
         end
 
