@@ -1,9 +1,13 @@
 function config -a utility -d 'Manages various utility configurations'
-    set EDITOR_DIR (string replace -r '\-?w' '' "$EDITOR")
+    if test -z "$EDITOR"
+        echo -s \
+            (set_color $fish_color_error) '$EDITOR is not defined' (set_color normal)
+        return 1
+    end
 
     switch "$utility"
         case alacritty
-            eval $EDITOR_DIR ~/.config/alacritty
+            eval $EDITOR ~/.config/alacritty
         case bat
             eval $EDITOR ~/.config/bat/config
         case bottom btm
@@ -11,21 +15,23 @@ function config -a utility -d 'Manages various utility configurations'
         case delta
             git config edit --global
         case fish
-            eval $EDITOR_DIR ~/.config/fish
+            eval $EDITOR ~/.config/fish
+        case ghostty
+            eval $EDITOR ~/.config/ghostty/config
         case git
             git config edit --global
         case hosts
             eval $EDITOR /etc/hosts
-        case jj
+        case jujutsu jj
             jj config edit --user
         case hx helix
-            eval $EDITOR_DIR ~/.config/helix
+            eval $EDITOR ~/.config/helix
         case kube kubectl
             eval $EDITOR ~/.kube/config
         case lsd
-            eval $EDITOR_DIR ~/.config/lsd
+            eval $EDITOR ~/.config/lsd
         case neovim nvim
-            eval $EDITOR_DIR ~/.config/nvim
+            eval $EDITOR ~/.config/nvim
         case rtx mise
             eval $EDITOR ~/.config/mise/config.toml
         case starship
@@ -45,8 +51,8 @@ function config -a utility -d 'Manages various utility configurations'
             echo '  fish         Opens the Fish config directory'
             echo '  git          Opens the Git global config file'
             echo '  hosts        Opens the hosts config file [required: sudo]'
-            echo '  jj           Opens the jj config file'
-            echo '  hx, helix    Opens the Helix config directory'
+            echo '  jujutsu, jj  Opens the Jujutsu config file'
+            echo '  helix, hx    Opens the Helix config directory'
             echo '  kube[ctl]    Opens the kubectl config file'
             echo '  lsd          Opens the lsd config directory'
             echo '  n[eo]vim     Opens the Neovim config directory'
