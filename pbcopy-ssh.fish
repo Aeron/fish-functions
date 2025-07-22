@@ -3,7 +3,6 @@ function pbcopy-ssh -a type -d 'Copies an SSH public key'
         set type ed25519
     end
 
-    cat ~/.ssh/id_$type.pub | pbcopy
-
-    echo 'SSH public key copied'
+    pbcopy <~/.ssh/id_$type.pub
+    and echo "SSH public key ($type) copied"
 end
