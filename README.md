@@ -22,6 +22,15 @@ Some are very usable, yet some are just gimmicks and tinkering (e.g., `cal` and
 
 ## Functions
 
+### > about
+
+Shows information about this Mac. A tiny [neofetch][neofetch] or [fastfetch][fastfetch] alternative.
+
+Usage: `about`
+
+[neofetch]: https://github.com/dylanaraps/neofetch
+[fastfetch]: https://github.com/fastfetch-cli/fastfetch
+
 ### > activate
 
 Activates Python's venv for current directory. A shorthand for
