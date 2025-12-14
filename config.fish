@@ -17,7 +17,7 @@ function config -a utility -d 'Manages various utility configurations'
         case fish
             eval $EDITOR ~/.config/fish
         case ghostty
-            eval $EDITOR ~/.config/ghostty/config
+            ghostty +edit-config
         case git
             git config edit --global
         case hosts
