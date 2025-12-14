@@ -29,8 +29,8 @@ function about -d 'Shows information about this Mac'
     )
     set os (sw_vers | rg -o '[\w\d.]+$')
     set codename (
-        head -n30 '/Library/Documentation/License.lpdf/Contents/Resources/English.lproj/License.html' \
-        | rg -or '$1' 'macOS ([\w\s]+)<'
+        head -n120 '/Library/Documentation/License.lpdf/Contents/Resources/English.lproj/License.html' \
+        | rg -or '$1' 'macOS ([A-z\s]+)(\s[\d]+)?<'
     )
     set display (
         system_profiler SPDisplaysDataType \
