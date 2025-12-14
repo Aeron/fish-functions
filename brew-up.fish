@@ -1,5 +1,5 @@
 function brew-up -d 'Updates Homebrew, upgrades and cleans up packages'
-    brew update &> /dev/null
+    brew update --quiet
     and brew upgrade
     and brew upgrade --cask
     brew autoremove
