@@ -73,10 +73,11 @@ Utilities:
   bottom, btm  Opens the bottom config file
   delta        Opens the delta config file (same as Git)
   fish         Opens the Fish config directory
+  ghostty      Opens the Ghostty config file
   git          Opens the Git global config file
   hosts        Opens the hosts config file [required: sudo]
-  jj           Opens the jj config file
-  hx, helix    Opens the Helix config directory
+  jujutsu, jj  Opens the Jujutsu config file
+  helix, hx    Opens the Helix config directory
   kube[ctl]    Opens the kubectl config file
   lsd          Opens the lsd config directory
   n[eo]vim     Opens the Neovim config directory
@@ -99,27 +100,19 @@ Usage: `curl-time URL`
 Manages databases as containers (via Docker).
 
 ```text
-Usage: database COMMAND DATABASE [OPTS...]
+Usage: database COMMAND DATABASE
 
 Commands:
   up/start       Starts a new database container
   down/stop      Stops an existing database container
   rm/remove      Removes an existing database container
 
-Mongo Commands:
-  dump           Exports the content of a running server
-  restore        Restores backups to a running server
-
 Databases:
   mongo          Specifies MongoDB as a database
   postgres       Specifies Postgres as a database
+  valkey         Specifies Valkey as a database
   redis          Specifies Redis as a database
-
-Mongo Dump/Restore Options:
-  --path=<PATH>  Specifies a directory path or name
-                 [default: "mongo-dump-<DATE>" and "."]
-  --db=<NAME>    Specifies a database name
-  --coll=<NAME>  Specifies a collection name
+  dragonfly      Specifies Dragonfly as a database
 
 Parameters:
   COMMAND        A command name [required]
@@ -310,6 +303,12 @@ Displays a macOS notification.
 
 Usage: `notify MESSAGE [TITLE [SUBTITLE]]`
 
+### > ollama-up
+
+Updates all Ollama models.
+
+Usage: `ollama-up`
+
 ### > pbcopy-gpg
 
 Copies a GPG public key.
@@ -324,7 +323,7 @@ Usage: `pbcopy-ssh [TYPE]`
 
 ### > ping
 
-A wrapper around the `ping` with a default address (1.1.1.1).
+A wrapper around the `ping` with a default address (9.9.9.9).
 
 Usage: `ping [ARGS...]`
 
@@ -376,9 +375,11 @@ Usage: `source-posix FILE [-v]`
 
 ### > sri-hash
 
-Calculates the subresource integrity hash for a given file.
+Calculates the [subresource integrity][mdn-sri] hash for a given file.
 
 Usage: `sri-hash FILE`
+
+[mdn-sri]: https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Subresource_Integrity
 
 ### > tztime
 
@@ -386,6 +387,12 @@ Displays current time in given timezones, e.g. `US/Pacific`, `UTC`, `Asia/Bangko
 etc. See `/usr/share/zoneinfo/` for more.
 
 Usage: `tztime TIMEZONE`
+
+### > unicode
+
+Returns a Unicode code point for a given character.
+
+Usage: `unicode CHARACTER`
 
 ### > unlock
 
