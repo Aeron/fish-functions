@@ -6,9 +6,9 @@ begin
         -e ALLOW_EMPTY_PASSWORD=yes \
         -e MONGODB_DISABLE_SYSTEM_LOG=true \
         -e MONGODB_ENABLE_DIRECTORY_PER_DB=true
-        # NOTE: looks like the "Failed to refresh key cache" error is still a thing
-        # (see https://www.mongodb.com/community/forums/t/single-node-replicaset-never-finishing-instanciating-error-cannot-use-non-local-read-concern-until-replica-set-is-finished-initializing/164815)
-        # -e MONGODB_REPLICA_SET_MODE=primary
+    # NOTE: looks like the "Failed to refresh key cache" error is still a thing
+    # (see https://www.mongodb.com/community/forums/t/single-node-replicaset-never-finishing-instanciating-error-cannot-use-non-local-read-concern-until-replica-set-is-finished-initializing/164815)
+    # -e MONGODB_REPLICA_SET_MODE=primary
 
     set postgres_image 'bitnami/postgresql:16'
     set postgres_opts \
@@ -38,19 +38,34 @@ begin
         -p 127.0.0.1:6379:6379 \
         --ulimit memlock=-1
 
+    function has_container -a name
+        set out (docker ps -aq --filter name=$name)
+        return (test -n "$out")
+    end
+
+    function has_container_stopped -a name
+        set out (docker ps -q --filter name=$name --filter status=exited)
+        return (test -n "$out")
+    end
+
+    function has_container_running -a name
+        set out (docker ps -q --filter name=$name --filter status=running)
+        return (test -n "$out")
+    end
+
     function up -a name image
-        if test ! (docker ps -aq --filter name=$name)
-            docker pull $image
-            docker run --detach --restart=unless-stopped --name=$name $argv[3..] $image
-        else if test ! (docker ps -q --filter name=$name)
+        if has_container_running $name
+            echo "Already running"
+        else if has_container_stopped $name
             docker start $name
         else
-            echo "Already running"
+            docker pull $image
+            docker run --detach --restart=unless-stopped --name=$name $argv[3..] $image
         end
     end
 
     function down -a name
-        if test (docker ps -q --filter name=$name)
+        if has_container_running $name
             docker stop $name
         else
             echo "Already stopped"
@@ -58,7 +73,7 @@ begin
     end
 
     function remove -a name
-        if test (docker ps -aq --filter name=$name)
+        if has_container $name
             docker rm -f $name
         else
             echo "Nothing to remove"
