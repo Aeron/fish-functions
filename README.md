@@ -358,6 +358,24 @@ Cleans directory Python cache and pre-compiled modules recursively.
 
 Usage: `pyclean`
 
+### > ramdisk
+
+Manages RAM disks.
+
+```text
+Usage: ramdisk [OPTS...] [NAME]
+
+Commands:
+  create                Creates a new RAM disk and mounts it
+  remove, rm            Unmounts an existing RAM volume and releases its device
+
+Create Options:
+  --size=<NUM>[k|m|g]   Specifies the disk size in (kilo|mega|giga)bytes [default: 2G]
+
+Parameters:
+  NAME                  A target volume name [default: "RAM Disk"]
+```
+
 ### > semver
 
 Evaluates an actual semantic version for a Git Flow repo.
